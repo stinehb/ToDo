@@ -32,10 +32,12 @@
         let div= document.createElement("div");
         div.appendChild(checkbox);
         div.appendChild(inputForCheckbox);
+        div.id = Math.random(Math.floor())
         container.appendChild(div);
         for(let i=0; i < container.lenght; i ++) {
             div.id= container[i];
            
+            
         }
         //hvis mouse over blir diven aktiv og den diven etter å ha trykt knappen skal kunne slettes 
         div.addEventListener("click", function(evt) {
