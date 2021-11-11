@@ -10,6 +10,7 @@
     <!----------- HTML-elements -------------->
     <h1>To Do List</h1>
     <button id="newCheckbox">Create an item in your to do list</button>
+    <button id="deleteItem">Delete</button>
     <div id="container"></div>
         
     <!------------- JavaScript --------------->
@@ -17,7 +18,9 @@
 
        //knapp for å generere ny checkbox og input text og save funksjon hvis man 
        let newCheckboxBtn = document.getElementById("newCheckbox");
+       let deleteItem = document.getElementById("deleteItem");
        let container = document.getElementById("container");
+       let aktiv = false;
 
        newCheckboxBtn.addEventListener("click", function (evt) {
         let checkbox= document.createElement("input");
@@ -30,6 +33,14 @@
         div.appendChild(checkbox);
         div.appendChild(inputForCheckbox);
         container.appendChild(div);
+        //hvis mouse over blir diven aktiv og den diven etter å ha trykt knappen skal kunne slettes 
+        div.addEventListener("click", function(evt) {
+            aktiv = true;
+        });
+        deleteItem.addEventListener("click", function(evt) {
+            
+        })
+
        })
         //alle  her skal legges til json fil for å bli lagret i databasen, for å kunne komme tilbke til den i showToDoLists.html
     </script>
