@@ -25,7 +25,9 @@ dbMethods.createToDoList = function(heading, items, userid) {
 }
 
 dbMethods.updateToDoList = function (id, heading, items, userid) {
-    let sql = "UPDATE ToDoList SET items "
+    let sql = "UPDATE ToDoList SET items = items WHERE id = $1 RETURNING *";
+    let values= [id, heading, items, userid];
+    return pool.query(sql, values);
 }
 
 // ------------------------------------
