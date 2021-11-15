@@ -9,6 +9,7 @@
 
     <!----------- HTML-elements -------------->
     <h1>To Do List</h1>
+    <input id="inpHeading" type="text" /><br>
     <button id="newCheckbox">Create an item in your to do list</button>
     <button id="deleteItem">Delete</button>
     <div id="container"></div>
@@ -16,14 +17,37 @@
     <!------------- JavaScript --------------->
     <script>
 
-       //knapp for å generere ny checkbox og input text og save funksjon hvis man 
+      
+       let inpHeading = document.getElementById('inpHeading');
        let newCheckboxBtn = document.getElementById("newCheckbox");
        let deleteItem = document.getElementById("deleteItem");
        let container = document.getElementById("container");
      
 
        newCheckboxBtn.addEventListener("click", function (evt) {
-        let checkbox= document.createElement("input");
+
+        let url= "/createToDoList";
+
+        let updata = {
+            heading: inpHeading.value,
+            item: container
+            //for se om container fungerer da
+        }
+
+        let cfg = {
+            method:"POST",
+            headers: {"content-type" : "application/json"},
+            body: JSON.stringify(updata)
+        }
+        try {
+            let response =await fetch (url, cfg);
+            let data= await response.json();
+
+            if(response.status != 200) {
+                throw data.error;
+            }
+
+            let checkbox= document.createElement("input");
         checkbox.type = "checkbox";
        // checkBox.id = 'checkbox' + count; // need unique Ids! 
          //checkBox.value = check_value[count] + '<br/>';
@@ -32,7 +56,7 @@
         let div= document.createElement("div");
         div.appendChild(checkbox);
         div.appendChild(inputForCheckbox);
-        div.id = Math.random(Math.floor())
+       // div.id = Math.random(Math.floor())
         container.appendChild(div);
         for(let i=0; i < container.lenght; i ++) {
             div.id= container[i];
@@ -46,8 +70,15 @@
         deleteItem.addEventListener("click", function(evt) {
 
         })
+    } 
+    catch(error) {
+        console.log(error);
+    }
 
-       })
+       });
+        
+
+       
         //alle  her skal legges til json fil for å bli lagret i databasen, for å kunne komme tilbke til den i showToDoLists.html
     </script>
 
