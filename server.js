@@ -10,7 +10,7 @@ server.set("port", PORT);
 server.use(express.static("public"));
 server.use(express.json());
 
-server.use(blogposts);
+server.use(todolists);
 server.use(users);
 
 
