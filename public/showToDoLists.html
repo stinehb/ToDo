@@ -8,17 +8,24 @@
 <body>
 
     <!----------- HTML-elements -------------->
+    
     <div id="container"></div>    
         
     <!------------- JavaScript --------------->
     <script>
 
         let container = document.getElementById("container");
+        
 
         //-----------------------------------------------
+
+       
+
+
+
         async function showAllLists() {
 
-            let url = "/showAllList";        
+            let url = "/showAllLists";        
             let token = localStorage.getItem("token");
             
             let cfg= {
