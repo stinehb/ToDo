@@ -34,3 +34,5 @@ router.delete("/showAllLists", protect, async function(req,res,next) {
 	
     }
 });
+
+module.exports = router;
