@@ -18,6 +18,20 @@ router.get("/showAllLists", protect, async function(req, res, next) {
 	}	
 });
 
+router.post("/createNewList", protect, async function(req, res, next) {		
+
+	/* console.log(res.locals.username);
+	console.log(res.locals.userid); */
+
+    try {
+		let data = await db.createToDoList();
+		res.status(200).json(data.rows).end();
+	}
+	catch(err) {
+		next(err);
+	}	
+});
+
 router.delete("/showAllLists", protect, async function(req,res,next) {
     let updata = req.body;
     try {
