@@ -51,7 +51,7 @@ dbMethods.deleteItem = function(id) {
 
 // ------------------------------------
 dbMethods.getUser = function(username) {
-    let sql = "SELECT * FROM public.users WHERE username = $1";
+    let sql = "SELECT * FROM users WHERE username = $1";
     let values = [username];	
 	return pool.query(sql, values); //return the promise	
 }
