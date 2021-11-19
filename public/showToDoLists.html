@@ -9,18 +9,23 @@
 
     <!----------- HTML-elements -------------->
     
+    <button id="btnCreate">Make new to do list!</button>
     <div id="container"></div>    
         
     <!------------- JavaScript --------------->
     <script>
 
+        let btn= document.getElementById("btnCreate");
         let container = document.getElementById("container");
         
 
         //-----------------------------------------------
 
        
+        btn.addEventListener("click", async function(evt) {
+            window.location.href = "createToDoLists.html";
 
+        });
 
 
         async function showAllLists() {
