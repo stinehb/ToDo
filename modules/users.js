@@ -16,7 +16,7 @@ router.post("/users/login", async function(req, res, next){
     } 
 	try {
 		let data = await db.getUser(cred.username);
-        console.log(data);
+       // console.log(data);
 
 		if (data.rows.length > 0) {
 			let userid= data.rows[0].id;
