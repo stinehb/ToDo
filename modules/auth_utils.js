@@ -10,9 +10,9 @@ utils.decodeCred = function(credString){
     let cred = {};
 
 	let b64String = credString.replace("basic ", ""); // 'am9zdGVpbm46a29uZ29sYXY='	
-	//let asciiString = Buffer.from(b64String, "base64").toString("ascii"); // 'josteinn:kongolav'	
-	//cred.username = asciiString.replace(/:.*/, ""); //josteinn	
-	//cred.password = asciiString.replace(cred.username + ":", ""); //kongolav
+	let asciiString = Buffer.from(b64String, "base64").toString("ascii"); // 'josteinn:kongolav'	
+	cred.username = asciiString.replace(/:.*/, ""); //josteinn	
+	cred.password = asciiString.replace(cred.username + ":", ""); //kongolav
 
 	return cred;
 }
