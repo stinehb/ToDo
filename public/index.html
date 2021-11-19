@@ -47,6 +47,7 @@
                 
                 txtResult.innerHTML = data.msg;
                 localStorage.setItem("token", data.token);
+                window.location.href = "showToDoLists.html";
                 
             }
             catch(error) {
