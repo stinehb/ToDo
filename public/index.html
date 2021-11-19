@@ -47,6 +47,8 @@
                 
                 txtResult.innerHTML = data.msg;
                 localStorage.setItem("token", data.token);
+                url = "/showAllLists";
+                window.location.href = "createToDoList.html";
             }
             catch(error) {
                 console.log(error);
