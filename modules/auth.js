@@ -1,6 +1,7 @@
 const authUtils = require("./auth_utils.js");
 
 function protect(req,res,next){
+    
     let token = req.headers.authorization;
 
     if(!token) {

@@ -67,6 +67,7 @@ utils.verifyToken = function(token){
 }
 //--------------------------------------------
 utils.verifyPassword = function(pswFromUser, hashFromDB, saltFromDB) {
+	
 	hash = crypto.scryptSync(pswFromUser, saltFromDB, 64).toString("hex");
 
 	if(hash == hashFromDB) {
