@@ -16,7 +16,9 @@ dbMethods.getAllToDoLists = function() {
 }
 
 
-//dbMethods.addItemToDoList= function (item)
+dbMethods.addItemToDoList= function (id, itemText, listID) {
+    
+}
 // ------------------------------------
 dbMethods.createToDoList = function(heading, items, userid) {  
     let sql = "INSERT INTO ToDoList (id, date, heading, items, userid) VALUES(DEFAULT, DEFAULT, $1, $2, $3) returning *";
