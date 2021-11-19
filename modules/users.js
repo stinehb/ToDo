@@ -113,7 +113,7 @@ router.delete("/users/delete", async function(req, res, next){
 			let passwordHash = data.rows[0].hash;
 			let salt = data.rows[0].salt;
 
-			let isPasswordAccurate = authUtils.verifyPassword(cred.password, passwordHash, salt);
+			let isPasswordAccurate = authUtils.verifyPassword(cred.password, password, salt);
 
 			if(isPasswordAccurate == true) {
 				let tok = authUtils.createToken(username, userid);
