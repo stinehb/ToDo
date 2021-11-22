@@ -21,41 +21,41 @@
     <script>
 
       
-      // let inpHeading = document.getElementById('inpHeading');
-       let newCheckboxBtn = document.getElementById("newCheckbox");
-      // let deleteItem = document.getElementById("deleteItem");
-       //let container = document.getElementById("container");
-       let items = [];
-     
-
-      
-
-
-       newCheckboxBtn.addEventListener("click", function (evt) {
-
-        let inputForCheckbox = document.createElement("input");
-         inputForCheckbox.type = "text";
-
-         let todo = {
-            text: inputForCheckbox.value,
-            id: Date.now(),
-         };
-
-         items.push(todo);
-
-        let delBtn = document.createElement("button");
-        delBtn.className="deleteList";
-        delBtn.className+="fa fa-trash";
-        
-        delBtn.addEventListener("click",function(evt) {
-            item.splice(todo,1);
-        })
-
-       });
+      let inpHeading = document.getElementById('inpHeading');
+       let newCheckboxBtn = document.getElementById("newCheckBox");
+       let container = document.getElementById("container");
+       let items= localStorage.getItem("items");
+       let token = localStorage.getItem("token");
 
        async function createToDoList(evt) {
+
         let url= "/createNewList";
-        let token = localStorage.getItem("token");
+
+        try {
+            let response = await fetch(url);
+                let data = await response.json();
+                
+                if (response.status != 200) {
+                    throw data.error;
+                }
+
+                container.innerHTML = ""; //delete previous content
+                
+                for (let value of data) {
+
+                  
+
+                    let html = "<h2>" + value.heading + "</h2>";
+                    html += "<p>" + date.toLocaleDateString() + "</p>";
+                    html += "<p>" + value.blogtext + "</p><hr>";
+
+                    let div = document.createElement("div");
+                    div.innerHTML = html;
+                    container.appendChild(div);
+        }
+
+
+        
 
        
         let updata = {
@@ -64,7 +64,7 @@
         }
 
         let cfg = {
-            method:"POST",
+            method:"GET",
             headers: {"authorization" : token},
             body: JSON.stringify(updata)
         }
@@ -85,7 +85,28 @@
     }
 
        }
+    }
         
+
+      
+
+
+       newCheckboxBtn.addEventListener("click", function (evt) {
+
+       
+        //vis alle items i listA
+
+
+       // delBtn.className="deleteList";
+        //delBtn.className+="fa fa-trash";
+        
+        delBtn.addEventListener("click",function(evt) {
+            item.splice(todo.id,1);
+        })
+
+       });
+
+      
 
        
         //alle  her skal legges til json fil for å bli lagret i databasen, for å kunne komme tilbke til den i showToDoLists.html

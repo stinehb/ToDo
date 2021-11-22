@@ -38,7 +38,7 @@ router.post("/createNewList", protect, async function(req, res, next) {
 
     try {
 		let data = await db.createToDoList();
-		res.status(200).json(data.rows).end();
+		res.status(200).json({msg: "You have successfully added item to to do list."}).end();
 	}
 	catch(err) {
 		next(err);
