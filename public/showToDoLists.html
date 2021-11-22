@@ -23,18 +23,15 @@
 
        
         btn.addEventListener("click", async function(evt) {
-<<<<<<< Updated upstream
           let url= "/createNewList";
           let token=localStorage.getItem("token");
           window.location.href="createToDoList.html";
-=======
            let url = "/createNewList";
            let token= localStorage.getItem("token");
            let cfg = {
                method:"POST",
                body: JSON.stringify
            }
->>>>>>> Stashed changes
 
         });
 

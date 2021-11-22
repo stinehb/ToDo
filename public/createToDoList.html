@@ -24,7 +24,6 @@
       let inpHeading = document.getElementById('inpHeading');
        let newCheckboxBtn = document.getElementById("newCheckBox");
        let container = document.getElementById("container");
-<<<<<<< Updated upstream
        let items= localStorage.getItem("items");
        let token = localStorage.getItem("token");
 
@@ -54,7 +53,6 @@
                     div.innerHTML = html;
                     container.appendChild(div);
         }
-=======
        let items = [];
      
 
@@ -70,7 +68,6 @@
             text: inputForCheckbox.value,
             id: Date.now(),
          };
->>>>>>> Stashed changes
 
          items.push(todo);
 
@@ -79,15 +76,12 @@
             item.splice(todo,1);
         });
 
-<<<<<<< Updated upstream
         
-=======
        });
 
        async function createToDoList(evt) {
         let url= "/createNewList";
         let token = localStorage.getItem("token");
->>>>>>> Stashed changes
 
        
         let updata = {
@@ -96,11 +90,8 @@
         }
 
         let cfg = {
-<<<<<<< Updated upstream
-            method:"GET",
-=======
+          
             method:"POST",
->>>>>>> Stashed changes
             headers: {"authorization" : token},
             body: JSON.stringify(updata)
         }
@@ -121,8 +112,7 @@
     }
 
        }
-<<<<<<< Updated upstream
-    }
+    
         
 
       
@@ -136,8 +126,6 @@
 
        // delBtn.className="deleteList";
         //delBtn.className+="fa fa-trash";
-=======
->>>>>>> Stashed changes
         
         delBtn.addEventListener("click",function(evt) {
             item.splice(todo.id,1);
