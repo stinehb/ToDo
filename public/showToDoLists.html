@@ -23,7 +23,9 @@
 
        
         btn.addEventListener("click", async function(evt) {
-            window.location.href = "createToDoLists.html";
+          let url= "/createNewList";
+          let token=localStorage.getItem("token");
+          window.location.href="createToDoList.html";
 
         });
 

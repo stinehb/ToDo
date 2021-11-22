@@ -3,69 +3,69 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">    
- <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
- <title>ToDoList</title>
+    <title>ToDoList</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
 </head>
 <body>
 
     <!----------- HTML-elements -------------->
     <h1>To Do List</h1>
-    <p>Her kan du lage din egen to do list, som kan hjelpe deg å ha litt bedre kontroll i hverdagen.</p><br>
+    <p>info om side</p>
     <input id="inpHeading" type="text" /><br>
-    <button id="newCheckbox">Create a new to do list!</button>
-    <button class="deleteList"><i class="fa fa-trash"></i></button><br><br>
+    <button id="newCheckbox">Create an item in your to do list</button>
     
     <div id="container"></div>
+    
         
     <!------------- JavaScript --------------->
     <script>
 
       
-       let inpHeading = document.getElementById('inpHeading');
+      // let inpHeading = document.getElementById('inpHeading');
        let newCheckboxBtn = document.getElementById("newCheckbox");
-       let deleteItem = document.getElementById("deleteItem");
-       let deleteList = document.getElementById("deleteList");
-       let container = document.getElementById("container");
-       let json ={};
+      // let deleteItem = document.getElementById("deleteItem");
+       //let container = document.getElementById("container");
+       let items = [];
      
+
+      
+
 
        newCheckboxBtn.addEventListener("click", function (evt) {
 
-        let url= "/createToDoList";
+        let inputForCheckbox = document.createElement("input");
+         inputForCheckbox.type = "text";
+
+         let todo = {
+            text: inputForCheckbox.value,
+            id: Date.now(),
+         };
+
+         items.push(todo);
+
+        let delBtn = document.createElement("button");
+        delBtn.className="deleteList";
+        delBtn.className+="fa fa-trash";
+        
+        delBtn.addEventListener("click",function(evt) {
+            item.splice(todo,1);
+        })
+
+       });
+
+       async function createToDoList(evt) {
+        let url= "/createNewList";
         let token = localStorage.getItem("token");
 
-        /*let checkbox= document.createElement("input");
-        checkbox.type = "checkbox";
-       // checkBox.id = 'checkbox' + count; // need unique Ids! 
-         //checkBox.value = check_value[count] + '<br/>';
-         let inputForCheckbox = document.createElement("input");
-         inputForCheckbox.type = "text";
-        let div= document.createElement("div");
-        div.appendChild(checkbox);
-        div.appendChild(inputForCheckbox);
-       // div.id = Math.random(Math.floor())
-        container.appendChild(div);
-        for(let i=0; i < container.lenght; i ++) {
-            div.id= container[i];
-           
-            
-        }*/
-        //alternativ 2
-        //lager json= {} for ei liste
-        //etterpå lager vi input for text, og etter text blir det lagret i arrayen, etterpå i cfg: body:json
-        
-
-
-
+       
         let updata = {
             heading: inpHeading.value,
-            item: container
-            //for se om container fungerer da
+            body: JSON.stringify(items)
         }
 
         let cfg = {
             method:"POST",
-            headers: {"content-type" : "application/json", "authorization" : token},
+            headers: {"authorization" : token},
             body: JSON.stringify(updata)
         }
 
@@ -77,23 +77,14 @@
                 throw data.error;
             }
 
-          
-        //hvis mouse over blir diven aktiv og den diven etter å ha trykt knappen skal kunne slettes 
-        div.addEventListener("click", function(evt) {
-            
-        });
-        deleteItem.addEventListener("click", function(evt) {
 
-        })
-        deleteList.addEventListener("click", function(evt) {
-
-       })
+    
     } 
     catch(error) {
         console.log(error);
     }
 
-       });
+       }
         
 
        
@@ -112,9 +103,6 @@
         input{
           background-color: rgb(248, 244, 239);
           opacity: 1;
-      }
-      button{
-          background-color: rgb(126, 121, 121);
       }
     </style>
 
