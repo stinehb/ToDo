@@ -17,7 +17,9 @@ dbMethods.getAllToDoLists = function() {
 
 
 dbMethods.addItemToDoList= function (id, itemText, listID) {
-    
+    let sql = "INSERT INTO listItems(id, itemText, listID) VALUES(DEFAULT, $1, $2) returning*";
+    let values = [id, itemText, listID];
+    return pool.query(sql, values);
 }
 // ------------------------------------
 dbMethods.createToDoList = function(heading, items, userid) {  
