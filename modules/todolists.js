@@ -18,6 +18,19 @@ router.get("/showAllLists", protect, async function(req, res, next) {
 	}	
 });
 
+router.post("/addNewItem", protect, async function(req, res, next) {		
+
+	console.log(res.locals.id);
+
+    try {
+		let data = await db.addItemToDoList();
+		res.status(200).json(data.rows).end();
+	}
+	catch(err) {
+		next(err);
+	}	
+});
+
 router.post("/createNewList", protect, async function(req, res, next) {		
 
 	/* console.log(res.locals.username);
