@@ -1,6 +1,7 @@
 const crypto = require ("crypto");
 
 //-------------------------------------------
+
 const secret = "dronningmaudsland";
 
 let utils = {};
