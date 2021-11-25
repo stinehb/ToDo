@@ -54,12 +54,16 @@
 
         let updata = {
           heading: 1,
-          body: JSON.stringify(items),
+          content: JSON.stringify(items),
         };
 
         let cfg = {
           method: "POST",
-          headers: {"content-type":"application/json"},
+          headers: {
+            "content-type":"application/json",
+            "authorization" : token
+          },
+
           token: { authorization: token },
           body: JSON.stringify(updata),
         };

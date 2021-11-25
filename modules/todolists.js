@@ -36,11 +36,11 @@ router.post("/createNewList", protect, async function(req, res, next) {
 	/* console.log(res.locals.username);
 	console.log(res.locals.userid); */
 
-	let token = 1;
 	let updata = req.body;
+	let userid = res.locals.userid;
 
     try {
-		let data = await db.createToDoList(updata.heading, updata.body, token);
+		let data = await db.createToDoList(updata.heading, updata.content, userid);
 
 		if (data.rows.length > 0) {
 			res.status(200).json({msg: "You have successfully added item to to do list."}).end();
