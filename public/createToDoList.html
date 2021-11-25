@@ -18,6 +18,7 @@
     </p>
     <br />
     <div id="container"></div>
+    <input id="inpHeading" placeholder="Titel of the to do list">
     <input id="input" placeholder="Add text">
     <button id="newCheckbox">Add New</button>
 
@@ -25,6 +26,7 @@
 
     <!------------- JavaScript --------------->
     <script>
+      let inpHeading= document.getElementById("inpHeading");
       let input = document.getElementById("input");
       let newCheckboxBtn = document.getElementById("newCheckbox");
       let deleteItem = document.getElementById("deleteItem");
@@ -51,7 +53,7 @@
         let token = localStorage.getItem("token");
 
         let updata = {
-          heading: 1,
+          heading: inpHeading.value,
           content: JSON.stringify(items),
         };
 

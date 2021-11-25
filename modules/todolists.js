@@ -18,12 +18,13 @@ router.get("/showAllLists", protect, async function(req, res, next) {
 	}	
 });
 
-router.post("/addNewItem", protect, async function(req, res, next) {		
+router.get("/showToDoList", protect, async function(req, res, next) {		
 
-	console.log(res.locals.id);
+	let userid = res.locals.id;
+	let updata= req.updata;
 
     try {
-		let data = await db.addItemToDoList();
+		let data = await db.showToDoList(updata.heading, userid);
 		res.status(200).json(data.rows).end();
 	}
 	catch(err) {

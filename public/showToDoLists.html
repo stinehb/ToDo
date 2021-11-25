@@ -53,16 +53,24 @@
 
                 container.innerHTML = ""; //delete previous content
                 
-               /* for (let value of data) {
+                for (let value of data) {
 
                     let date = new Date(value.date);
 
                     let html = "<h2>" + value.heading + "</h2>";
                     html += "<p>" + date.toLocaleDateString() + "</p>";
-                    html += "<p>" + value.item + "</p><hr>";
+                    //html += "<p>" + value.item + "</p><hr>";
 
                     let div = document.createElement("div");
                     div.innerHTML = html;
+
+                    div.addEventListener("click", function(evt) {
+                        let url= "/showToDoList";
+                        let divContent= localStorage.setItem("divContent", value.content);
+                        let divHeading = localStorage.setItem("divHeading", value.heading);
+                        let divID= localStorage.setItem("divID", value.id);
+                       window.location.href="showToDoList.html";
+                    })
                     container.appendChild(div);
 
                     let delbtn = document.createElement("button");
@@ -73,7 +81,7 @@
                     });
 
                     div.insertBefore(delbtn, div.lastElementChild);
-                }*/
+                }
             }
             catch(error) {
                 console.log(error);

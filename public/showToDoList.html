@@ -25,17 +25,20 @@
         let input = document.getElementById("input");
         let newItemBtn = document.getElementById("newItemBtn");
         
-       let items = [];
+       //let items = [];
       
 
       
 
 
-       newItemBtn.addEventListener("click", function (evt) {
-
-        let url ="/addNewItem";
+     async function showToDoList () {
+        let url ="/showToDoList";
         
-        let todo = {
+        let divHeading = localStorage.getItem("divHeading");
+        let divContent = localStorage.getItem("divContent");
+        let divID= localStorage.getItem("divID");
+
+        /*let todo = {
             text: inputForCheckbox.value,
             id: Date.now(),
          };
@@ -44,7 +47,7 @@
          localStorage.setItem(items, "items");
          let token= localStorage.getItem("token");
 
-           
+           */
 
            let updata = {
                heading: {"Content-Type":"application/json; charset-utf-8"},
@@ -54,8 +57,9 @@
         
 
         let cfg = {
-            method:"POST",
-            headers: {"authorization" : token},  //Evt "content-type":"application/json"
+            method:"GET",
+            headers: {"content-type":"application/json",
+            "authorization" : token},
             body: JSON.stringify(updata)
         }
 
@@ -71,7 +75,7 @@
     catch(error) {
         console.log(error);
     }
-           });
+           }
 
         
 

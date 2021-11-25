@@ -16,9 +16,9 @@ dbMethods.getAllToDoLists = function() {
 }
 
 
-dbMethods.addItemToDoList= function (id, itemText, listID) {
-    let sql = "INSERT INTO listItems(id, itemText, listID) VALUES(DEFAULT, $1, $2) returning*";
-    let values = [id, itemText, listID];
+dbMethods.showToDoList= function (id, userid) {
+    let sql = "SELECT * FROM todolist WHERE id = $1 AND userid = $2";
+    let values = [id, userid];
     return pool.query(sql, values);
 }
 // ------------------------------------
