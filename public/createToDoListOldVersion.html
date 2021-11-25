@@ -17,11 +17,11 @@
       <br />For example a shopping list.
     </p>
     <br />
-    <div id="container"></div>
-    <input id="input" placeholder="Add text">
-    <button id="newCheckbox">Add New</button>
-
     
+    <input id="input" placeholder="Add text">
+    <button id="newCheckbox">+</button>
+
+    <div id="container"></div>
 
     <!------------- JavaScript --------------->
     <script>
@@ -31,26 +31,41 @@
     let container = document.getElementById("container");
     let items = [];
     
-    newCheckboxBtn.addEventListener('click', async function(evt) {
+newCheckboxBtn.addEventListener("click", function (evt) {
+            let inputForCheckbox = document.createElement("input");
+            let newCheckboxBtn1 = document.createElement("button");
+            newCheckboxBtn1.innerHTML = "+";
+            inputForCheckbox.type = "text";
+            container.appendChild(inputForCheckbox);
+            container.appendChild(newCheckboxBtn1);
+            console.log(inputForCheckbox.value);
 
-        let listItem = document.createElement("h2");
-        listItem.innerHTML = input.value;
-        container.appendChild(listItem);
+            let todo = {
+              text: inputForCheckbox.value,
+              id: Date.now(),
+            };
 
-        let todo = {
-            text: input.value,
-            id: Date.now(),
-        };
+            if(inputForCheckbox.value.length > 0){
+                items.push(todo);
+            }
+            console.log(todo);
 
-        if(input.value.length > 0){
-            items.push(todo);
-        }
-        input.value = "";
+        //  let inputForCheckbox = document.createElement("input");
+          //inputForCheckbox.type = "text";
+          // let delBtn = document.createElement("button");
+          // delBtn.className="deleteList";
+          //delBtn.className+="fa fa-trash";
 
-        console.log(todo);
+          /* delBtn.addEventListener("click",function(evt) {
+     item.splice(todo,1);
+ })*/
+
+    async function createToDoList(evt) {
 
         let url = "/createNewList";
         let token = localStorage.getItem("token");
+
+        
 
         let updata = {
           heading: 1,
@@ -59,8 +74,7 @@
 
         let cfg = {
           method: "POST",
-          headers: {"content-type":"application/json"},
-          token: { authorization: token },
+          headers: { authorization: token },
           body: JSON.stringify(updata),
         };
 
@@ -74,8 +88,10 @@
         } catch (error) {
           console.log(error);
         }
-      });
-    
+      }
+
+
+        });
       
 
       //alle  her skal legges til json fil for å bli lagret i databasen, for å kunne komme tilbke til den i showToDoLists.html
