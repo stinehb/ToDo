@@ -11,7 +11,7 @@ let dbMethods = {}; //create empty object
 
 // ------------------------------------
 dbMethods.getAllToDoLists = function() {
-    let sql = "SELECT * FROM ToDoList";	
+    let sql = "SELECT * FROM todolist";	
 	return pool.query(sql); //return the promise	
 }
 
@@ -25,26 +25,26 @@ dbMethods.addItemToDoList= function (id, itemText, listID) {
 dbMethods.createToDoList = function(heading, items, userid) { 
     
     console.log(heading, items, userid)
-    let sql = "INSERT INTO ToDoList (id, date, heading, items, userid) VALUES(DEFAULT, DEFAULT, $1, $2, $3) returning *";
+    let sql = "INSERT INTO todolist (id, date, heading, items, userid) VALUES(DEFAULT, DEFAULT, $1, $2, $3) returning *";
 	let values = [heading, items, userid];	
     return pool.query(sql, values); //return the promise
 }
 
 dbMethods.updateToDoList = function (id, heading, items, userid) {
-    let sql = "UPDATE ToDoList SET items = items WHERE id = $1 RETURNING *";
+    let sql = "UPDATE todolist SET items = items WHERE id = $1 RETURNING *";
     let values= [id, heading, items, userid];
     return pool.query(sql, values);
 }
 
 // ------------------------------------
 dbMethods.deleteToDoList = function(id) {  
-    let sql = "DELETE FROM ToDoList WHERE id = $1 RETURNING *";
+    let sql = "DELETE FROM todolist WHERE id = $1 RETURNING *";
 	let values = [id];	
     return pool.query(sql, values); //return the promise
 }
 
 dbMethods.deleteItem = function(id) {  
-    let sql = "DELETE items FROM ToDoList WHERE id = $1 RETURNING *";
+    let sql = "DELETE items FROM todolist WHERE id = $1 RETURNING *";
 	let values = [id];	
     return pool.query(sql, values); //return the promise
 }
