@@ -4,6 +4,23 @@ const router = express.Router();
 const protect = require("./auth.js");
 
 // endpoints ----------------------------
+
+
+router.get("/showToDoList/update", protect, async function(req, res, next) {
+
+	let updata = req.updata;
+	let userid= res.locals.userid;
+
+	try {
+		let data= await db.updateToDoList(updata.heading, userid);
+		res.status(200).json(data.rows).end();
+	}
+	catch(err){
+		next(err);
+	}
+});
+
+
 router.get("/showAllLists", protect, async function(req, res, next) {		
 
 	let userid= res.locals.userid;

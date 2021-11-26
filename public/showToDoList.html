@@ -27,7 +27,7 @@
       async function showToDoList() {
         let url = "/showToDoList";
 
-    
+        let divHeading = localStorage.getItem("divHeading");
        // let updata = {
          // heading: { "Content-Type": "application/json; charset-utf-8" },
          // body: JSON.stringify(todo),
@@ -37,7 +37,6 @@
           method: "GET",
           headers: { "content-type": "application/json",
            "authorization" : token },
-          body: JSON.stringify(updata),
         };
 
         try {
@@ -76,14 +75,21 @@
                     updateToDoList();
 
                     });
-      }
+      } 
               } catch (error) {
           console.log(error);
         }
       }
      async function updateToDoList (evt) {
 
-        let url = ""
+    
+        let url = "/showToDoList/update";
+        let divHeading = localStorage.getItem("divHeading");
+
+         let updata = {
+             heading: divHeading,
+             body:
+         }
      }
       
 
