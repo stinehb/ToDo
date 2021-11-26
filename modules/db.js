@@ -17,9 +17,9 @@ dbMethods.getAllToDoLists = function(userid) {
 }
 
 
-dbMethods.showToDoList= function (id, userid) {
-    let sql = "SELECT * FROM todolist WHERE id = $1 AND userid = $2";
-    let values = [id, userid];
+dbMethods.showToDoList= function (id) {
+    let sql = "SELECT * FROM todolist WHERE id = $1";
+    let values = [id];
     return pool.query(sql, values);
 }
 // ------------------------------------

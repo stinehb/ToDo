@@ -18,46 +18,39 @@
     </p>
     <br />
     <div id="container"></div>
-    <input id="inpHeading" placeholder="Titel of the to do list"><br>
-    <input id="input" placeholder="Add text">
-    <button id="newCheckbox">Add New</button> <br>
-    <button id="sendToServer">Create the List</button> <br>
-    <a href="showToDoLists.html">Show All Lists</a>
-
-
-    
+    <input id="inpHeading" placeholder="Titel of the to do list" /><br />
+    <input id="input" placeholder="Add text" />
+    <button id="newCheckbox">Add New</button> <br />
+    <button id="sendToServer">Create the List</button> <br />
+    <a href="showAllLists.html">Show All Lists</a>
 
     <!------------- JavaScript --------------->
     <script>
-      let inpHeading= document.getElementById("inpHeading");
+      let inpHeading = document.getElementById("inpHeading");
       let input = document.getElementById("input");
       let newCheckboxBtn = document.getElementById("newCheckbox");
       let sendToServer = document.getElementById("sendToServer");
       let deleteItem = document.getElementById("deleteItem");
-    let container = document.getElementById("container");
-    let items = [];
-    
-    newCheckboxBtn.addEventListener('click', async function(evt) {
+      let container = document.getElementById("container");
+      let items = [];
 
+      newCheckboxBtn.addEventListener("click", async function (evt) {
         let listItem = document.createElement("h2");
         listItem.innerHTML = input.value;
         container.appendChild(listItem);
 
         let todo = {
-            text: input.value,
-            id: Date.now(),
+          text: input.value,
+          id: Date.now(),
         };
 
-        if(input.value.length > 0){
-            items.push(todo);
+        if (input.value.length > 0) {
+          items.push(todo);
         }
         input.value = "";
-
-        
       });
 
-      sendToServer.addEventListener('click', async function(evt) {
-
+      sendToServer.addEventListener("click", async function (evt) {
         let url = "/createNewList";
         let token = localStorage.getItem("token");
 
@@ -69,8 +62,8 @@
         let cfg = {
           method: "POST",
           headers: {
-            "content-type":"application/json",
-            "authorization" : token
+            "content-type": "application/json",
+            authorization: token,
           },
           body: JSON.stringify(updata),
         };
@@ -86,7 +79,6 @@
           console.log(error);
         }
       });
-      
 
       //alle  her skal legges til json fil for å bli lagret i databasen, for å kunne komme tilbke til den i showToDoLists.html
     </script>
