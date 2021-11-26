@@ -68,9 +68,6 @@ router.post("/users/login", async function(req, res, next){
 router.post("/users", async function(req, res, next){
     let credString = req.headers.authorization;
     let cred = authUtils.decodeCred(credString);
-
-    console.log(credString);
-    console.log(cred);
     
     if (cred.username == "" || cred.password == "") {
         res.status(401).json({error: "No username or password"}).end();
