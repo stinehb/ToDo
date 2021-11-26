@@ -20,7 +20,10 @@
     <div id="container"></div>
     <input id="inpHeading" placeholder="Titel of the to do list"><br>
     <input id="input" placeholder="Add text">
-    <button id="newCheckbox">Add New</button>
+    <button id="newCheckbox">Add New</button> <br>
+    <button id="sendToServer">Create the List</button> <br>
+    <a href="showToDoLists.html">Show All Lists</a>
+
 
     
 
@@ -29,6 +32,7 @@
       let inpHeading= document.getElementById("inpHeading");
       let input = document.getElementById("input");
       let newCheckboxBtn = document.getElementById("newCheckbox");
+      let sendToServer = document.getElementById("sendToServer");
       let deleteItem = document.getElementById("deleteItem");
     let container = document.getElementById("container");
     let items = [];
@@ -48,6 +52,11 @@
             items.push(todo);
         }
         input.value = "";
+
+        
+      });
+
+      sendToServer.addEventListener('click', async function(evt) {
 
         let url = "/createNewList";
         let token = localStorage.getItem("token");
@@ -79,7 +88,6 @@
           console.log(error);
         }
       });
-    
       
 
       //alle  her skal legges til json fil for å bli lagret i databasen, for å kunne komme tilbke til den i showToDoLists.html
