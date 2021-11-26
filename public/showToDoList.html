@@ -27,38 +27,16 @@
       async function showToDoList() {
         let url = "/showToDoList";
 
-        let divHeading = localStorage.getItem("divHeading");
-        let divContent = localStorage.getItem("divContent");
-        let divID = localStorage.getItem("divID");
-
-        /*let todo = {
-            text: inputForCheckbox.value,
-            id: Date.now(),
-         };
-
-         items.push(todo);
-         localStorage.setItem(items, "items");
-         let token= localStorage.getItem("token");
-
-           */
-
-      
-
-        let html = "<h2>" + divHeading + "</h2>";
-        html += "<p>" + divContent                           + "</p>";
-        //html += "<p>" + value.item + "</p><hr>";
-
-        let div = document.createElement("div");
-        div.innerHTML = html;
-
-        let updata = {
-          heading: { "Content-Type": "application/json; charset-utf-8" },
-          body: JSON.stringify(todo),
-        };
+    
+       // let updata = {
+         // heading: { "Content-Type": "application/json; charset-utf-8" },
+         // body: JSON.stringify(todo),
+        //};
 
         let cfg = {
           method: "GET",
-          headers: { "content-type": "application/json", authorization: token },
+          headers: { "content-type": "application/json",
+           "authorization" : token },
           body: JSON.stringify(updata),
         };
 
@@ -69,11 +47,46 @@
           if (response.status != 200) {
             throw data.error;
           }
-          txtResult.innerHTML = data.msg;
-        } catch (error) {
+
+          container.innerHTML = ""; //delete previous content
+
+         // let html = "<h2>" + value.heading + "</h2>";
+
+                for (let value of data) {
+
+                  //  let date = new Date(value.date);
+                    let html = value.text;
+                  //  html += "<p>" + date.toLocaleDateString() + "</p>";
+                    //html += "<p>" + value.text + "</p><hr>";
+                    
+
+                    let div = document.createElement("div");
+                    div.innerHTML = html;
+                   
+
+                    let delbtn = document.createElement("button");
+                    delbtn.innerHTML = "Delete";
+                    div.appendChild(delbtn);
+      
+                    container.appendChild(div);
+
+                    delbtn.addEventListener("click", function(evt) {
+                        
+                    container.parentElement.removeChild(div);
+                    updateToDoList();
+
+                    });
+      }
+              } catch (error) {
           console.log(error);
         }
       }
+     async function updateToDoList (evt) {
+
+        let url = ""
+     }
+      
+
     </script>
 
     <!---------------- CSS ------------------->
