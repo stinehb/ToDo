@@ -19,8 +19,8 @@
     <script>
       // let deleteItem = document.getElementById("deleteItem");
       //let container = document.getElementById("container");
-      let input = document.getElementById("input");
-      let newItemBtn = document.getElementById("newItemBtn");
+      /* let input = document.getElementById("input");
+      let newItemBtn = document.getElementById("newItemBtn"); */
 
       //let items = [];
 
@@ -61,7 +61,7 @@
 
                     let div = document.createElement("div");
                     div.innerHTML = html;
-                   
+                   div.appendChild(divHeading);
 
                     let delbtn = document.createElement("button");
                     delbtn.innerHTML = "Delete";
@@ -80,7 +80,7 @@
           console.log(error);
         }
       }
-     async function updateToDoList (evt) {
+     /* async function updateToDoList (evt) {
 
     
         let url = "/showToDoList/update";
@@ -90,7 +90,7 @@
              heading: divHeading,
              body:
          }
-     }
+     } */
       
 
     </script>

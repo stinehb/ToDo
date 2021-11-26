@@ -25,7 +25,6 @@ dbMethods.showToDoList= function (id, userid) {
 // ------------------------------------
 dbMethods.createToDoList = function(heading, items, userid) { 
     
-    console.log(heading, items, userid)
     let sql = "INSERT INTO todolist (id, date, heading, items, userid) VALUES(DEFAULT, DEFAULT, $1, $2, $3) returning *";
 	let values = [heading, items, userid];	
     return pool.query(sql, values); //return the promise
