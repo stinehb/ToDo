@@ -57,8 +57,8 @@
         });
         
         // --------------------------------------
-        function createCredentialString(password) {
-            let combinedStr = password;
+        function createCredentialString(username, password) {
+            let combinedStr = username + ":" + password;
             let b64Str = btoa(combinedStr);
             return "basic " + b64Str;
           //  return combinedStr;
