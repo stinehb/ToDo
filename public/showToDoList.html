@@ -1,42 +1,35 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">    
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>ToDoList</title>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
-</head>
-<body>
-
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css"
+    />
+  </head>
+  <body>
     <!----------- HTML-elements -------------->
     <h1>To Do List</h1>
-    <input id="input" type="text">
-    <button id="newItemBtn">Add item to your to do list </button><br>
-    
-        
+    <input id="input" type="text" />
+    <button id="newItemBtn">Add item to your to do list</button><br />
+
     <!------------- JavaScript --------------->
     <script>
-
-      
-     
-       
       // let deleteItem = document.getElementById("deleteItem");
-       //let container = document.getElementById("container");
-        let input = document.getElementById("input");
-        let newItemBtn = document.getElementById("newItemBtn");
-        
-       //let items = [];
-      
+      //let container = document.getElementById("container");
+      let input = document.getElementById("input");
+      let newItemBtn = document.getElementById("newItemBtn");
 
-      
+      //let items = [];
 
+      async function showToDoList() {
+        let url = "/showToDoList";
 
-     async function showToDoList () {
-        let url ="/showToDoList";
-        
         let divHeading = localStorage.getItem("divHeading");
         let divContent = localStorage.getItem("divContent");
-        let divID= localStorage.getItem("divID");
+        let divID = localStorage.getItem("divID");
 
         /*let todo = {
             text: inputForCheckbox.value,
@@ -49,61 +42,58 @@
 
            */
 
-           let updata = {
-               heading: {"Content-Type":"application/json; charset-utf-8"},
-               body: JSON.stringify(todo)
-           }
-              
-        
+      
+
+        let html = "<h2>" + divHeading + "</h2>";
+        html += "<p>" + divContent                           + "</p>";
+        //html += "<p>" + value.item + "</p><hr>";
+
+        let div = document.createElement("div");
+        div.innerHTML = html;
+
+        let updata = {
+          heading: { "Content-Type": "application/json; charset-utf-8" },
+          body: JSON.stringify(todo),
+        };
 
         let cfg = {
-            method:"GET",
-            headers: {"content-type":"application/json",
-            "authorization" : token},
-            body: JSON.stringify(updata)
-        }
+          method: "GET",
+          headers: { "content-type": "application/json", authorization: token },
+          body: JSON.stringify(updata),
+        };
 
         try {
-            let response =await fetch (url, cfg);
-            let data= await response.json();
+          let response = await fetch(url, cfg);
+          let data = await response.json();
 
-            if(response.status != 200) {
-                throw data.error;
-            }
-            txtResult.innerHTML = data.msg;
-    } 
-    catch(error) {
-        console.log(error);
-    }
-           }
-
-        
-
-
+          if (response.status != 200) {
+            throw data.error;
+          }
+          txtResult.innerHTML = data.msg;
+        } catch (error) {
+          console.log(error);
+        }
+      }
     </script>
 
     <!---------------- CSS ------------------->
-    <style>        
-* {
-            
-            margin: 0;
-            font-family: sans-serif;
-            background-color:rgb(163, 155, 144);
-            color: rgb(9, 15, 12);
-        }   
-        input{
-          background-color: rgb(248, 244, 239);
-          opacity: 1;
+    <style>
+      * {
+        margin: 0;
+        font-family: sans-serif;
+        background-color: rgb(163, 155, 144);
+        color: rgb(9, 15, 12);
       }
-      button{
-          background-color: rgb(126, 121, 121);
-          
+      input {
+        background-color: rgb(248, 244, 239);
+        opacity: 1;
+      }
+      button {
+        background-color: rgb(126, 121, 121);
       }
       .deleteList {
-          border-radius: 50%;
+        border-radius: 50%;
       }
     </style>
-
-</body>
-
+  </body>
 </html>

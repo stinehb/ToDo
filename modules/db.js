@@ -10,8 +10,8 @@ const pool = new pg.Pool({
 let dbMethods = {}; //create empty object
 
 // ------------------------------------
-dbMethods.getAllToDoLists = function() {
-    let sql = "SELECT * FROM todolist";	
+dbMethods.getAllToDoLists = function(userid) {
+    let sql = "SELECT * FROM todolist WHERE userid = $1";	
 	return pool.query(sql); //return the promise	
 }
 

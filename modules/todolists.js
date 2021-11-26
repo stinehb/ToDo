@@ -6,11 +6,11 @@ const protect = require("./auth.js");
 // endpoints ----------------------------
 router.get("/showAllLists", protect, async function(req, res, next) {		
 
-	console.log(res.locals.username);
-	console.log(res.locals.userid);
+	let userid= res.locals.userid;
+	
 
     try {
-		let data = await db.getAllToDoLists();
+		let data = await db.getAllToDoLists(userid);
 		res.status(200).json(data.rows).end();
 	}
 	catch(err) {
@@ -20,7 +20,7 @@ router.get("/showAllLists", protect, async function(req, res, next) {
 
 router.get("/showToDoList", protect, async function(req, res, next) {		
 
-	let userid = res.locals.id;
+	let userid = res.locals.userid;
 	let updata= req.updata;
 
     try {
