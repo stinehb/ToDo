@@ -14,29 +14,34 @@
     <h1>To Do List</h1>
     <input id="input" type="text" />
     <button id="newItemBtn">Add item to your to do list</button><br />
+    <div id="container"></div>
 
     <!------------- JavaScript --------------->
     <script>
       // let deleteItem = document.getElementById("deleteItem");
-      //let container = document.getElementById("container");
+      let container = document.getElementById("container");
       /* let input = document.getElementById("input");
       let newItemBtn = document.getElementById("newItemBtn"); */
 
-      //let items = [];
-
       async function showToDoList() {
         let url = "/showToDoList";
+        let token = localStorage.getItem("token");
 
         let divHeading = localStorage.getItem("divHeading");
-       // let updata = {
-         // heading: { "Content-Type": "application/json; charset-utf-8" },
-         // body: JSON.stringify(todo),
-        //};
+        let divID = localStorage.getItem("divID");
+        let divContent = localStorage.getItem("divContent");
+      
+
+        /* let updata = {
+          heading: divID
+        }; */
 
         let cfg = {
           method: "GET",
-          headers: { "content-type": "application/json",
-           "authorization" : token },
+          headers: {
+            "content-type": "application/json",
+            "authorization": token,
+          }
         };
 
         try {
@@ -49,38 +54,37 @@
 
           container.innerHTML = ""; //delete previous content
 
-         // let html = "<h2>" + value.heading + "</h2>";
+          // console.log(data);
+          
+          let div = document.createElement("div");
+          div.innerHTML += divHeading;
+          div.innerHTML += divContent;
+          container.appendChild(div);
 
-                for (let value of data) {
+          for (let value of data) {
+            let html = value.text;
 
-                  //  let date = new Date(value.date);
-                    let html = value.text;
-                  //  html += "<p>" + date.toLocaleDateString() + "</p>";
-                    //html += "<p>" + value.text + "</p><hr>";
-                    
+            let div = document.createElement("div");
+            div.innerHTML = html;
+            div.appendChild(divHeading);
+            let delbtn = document.createElement("button");
+            delbtn.innerHTML = "Delete";
+            div.appendChild(delbtn);
 
-                    let div = document.createElement("div");
-                    div.innerHTML = html;
-                   div.appendChild(divHeading);
-
-                    let delbtn = document.createElement("button");
-                    delbtn.innerHTML = "Delete";
-                    div.appendChild(delbtn);
-      
-                    container.appendChild(div);
-
-                    delbtn.addEventListener("click", function(evt) {
-                        
-                    container.parentElement.removeChild(div);
-                    updateToDoList();
-
-                    });
-      } 
-              } catch (error) {
+            container.appendChild(div);
+            delbtn.addEventListener("click", function (evt) {
+              container.parentElement.removeChild(div);
+              updateToDoList();
+            });
+          }
+        } catch (error) {
           console.log(error);
         }
       }
-     /* async function updateToDoList (evt) {
+
+      showToDoList();
+
+      /* async function updateToDoList (evt) {
 
     
         let url = "/showToDoList/update";
@@ -91,8 +95,6 @@
              body:
          }
      } */
-      
-
     </script>
 
     <!---------------- CSS ------------------->
