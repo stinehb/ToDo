@@ -11,8 +11,9 @@ let dbMethods = {}; //create empty object
 
 // ------------------------------------
 dbMethods.getAllToDoLists = function(userid) {
-    let sql = "SELECT * FROM todolist WHERE userid = $1";	
-	return pool.query(sql); //return the promise	
+    let sql = "SELECT * FROM todolist WHERE userid = $1";
+    let values = [userid];	
+	return pool.query(sql, values); //return the promise	
 }
 
 
