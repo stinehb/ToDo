@@ -31,7 +31,8 @@
         btnLogin.addEventListener('click', async function(evt) {
             
             let url = "/users/login";
-            let credString = createCredentialString(inpUsername.value, inpPassword.value);
+            let credString = createCredentialString(inpUsername.value.toLowerCase(), inpPassword.value.toLowerCase());
+            
 
             let cfg = {
                 method: "POST",

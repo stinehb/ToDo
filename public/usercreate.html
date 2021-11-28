@@ -28,8 +28,9 @@
     btnCreate.addEventListener('click', async function(evt) {
 
         let url = "/users";
-        let credString = createCredentialString(inpUsername.value, inpPassword.value);
-       // let username, password = "";
+        let credString = createCredentialString(inpUsername.value.toLowerCase(), inpPassword.value.toLowerCase());
+        
+        // let username, password = "";
         //username= inpUsername.value;
         //password=inpPassword.value;
 

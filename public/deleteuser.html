@@ -31,7 +31,7 @@
         btnDeleteUser.addEventListener('click', async function(evt) {
             
             let url = "/users/delete";
-            let credString = createCredentialString(inpUsername.value, inpPassword.value);
+            let credString = createCredentialString(inpUsername.value.toLowerCase(), inpPassword.value.toLowerCase());
 
             let cfg = {
                 method: "DELETE",
