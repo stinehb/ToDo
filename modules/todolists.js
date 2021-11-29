@@ -7,13 +7,13 @@ const { getAllToDoLists } = require('./db.js');
 // endpoints ----------------------------
 
 
-router.get("/showToDoList/update", protect, async function(req, res, next) {
+router.put("/showToDoList/update", protect, async function(req, res, next) {
 
-	let updata = req.updata;
-	let userid= res.locals.userid;
+	let items = req.updata;
+	let id= req.query.id;
 
 	try {
-		let data= await db.updateToDoList(updata.heading, userid);
+		let data= await db.updateToDoList(items, id);
 		res.status(200).json(data.rows).end();
 	}
 	catch(err){

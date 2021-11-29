@@ -30,9 +30,9 @@ dbMethods.createToDoList = function(heading, items, userid) {
     return pool.query(sql, values); //return the promise
 }
 
-dbMethods.updateToDoList = function (heading, userid) {
-    let sql = "UPDATE todolist SET items = items WHERE heading = $1 AND userid = $2 RETURNING *";
-    let values= [id, heading, items, userid];
+dbMethods.updateToDoList = function (items, id) {
+    let sql = "UPDATE todolist SET items = $1 WHERE id = $2 RETURNING *";
+    let values= [items, id];
     return pool.query(sql, values);
 }
 

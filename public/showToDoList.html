@@ -8,7 +8,9 @@
   </head>
   <body>
     <!----------- HTML-elements -------------->
-    <h1 id="titel">To Do List</h1>
+    <h1 id="titel">To Do List</h1><br>
+    <input type="text" id="inp">    <button id="itemplus">Legg til en item til denne to do list</button>
+<br>
     <div id="container"></div>
 
     <!------------- JavaScript --------------->
@@ -20,7 +22,22 @@
       /* let input = document.getElementById("input");
       let newItemBtn = document.getElementById("newItemBtn"); */
       let tittel= document.getElementById("titel");
+      let inp=document.getElementById("inp");
+      let btnPlusItme= document.getElementById("itemplus");
 
+      btnPlusItme.addEventListener("click", async function() {
+
+        let todo = {
+          text: input.value,
+          id: Date.now(),
+        };
+        let tst2 = data[0].items;
+          let tst = JSON.parse(tst2);
+          tst.push(todo);
+          updateToDoList();
+
+
+      });
 
       async function showToDoList() {
         //let url = "/showToDoList";
@@ -81,14 +98,17 @@
             div1.appendChild(text);
            // div.appendChild(divHeading);
            //container.appendChild(div1);
+           div1.draggable = true;
+           div1.ondragstart = startToDoDrag();
 
 
-            let delbtn = document.createElement("button");
-            delbtn.innerHTML = "Delete";
-           div1.appendChild(delbtn);
+           // let delbtn = document.createElement("button");
+          //  delbtn.innerHTML = "Delete";
+          // div1.appendChild(delbtn);
 
             container.appendChild(div1);
-           /* delbtn.addEventListener("click", function (evt) {
+         /*  delbtn.addEventListener("click", function (evt) {
+
              container.parentElement.removeChild(div1);
               updateToDoList();
             });*/
@@ -99,19 +119,38 @@
         }
       }
 
-     showToDoList();
+      function startBoxDrag (evt) {
+  evt.dataTransfer.setData("id", evt.target.id);
+}
+garbageBin.ondragover= function(evt) {
+        evt.preventDefault(); 
+       // evt.dataTransfer.dropEffect = "move";        
+    }
 
-      /* async function updateToDoList (evt) {
+    // drop --------------------------------------------
+   garbageBin.ondrop= function(evt) {        
+        let id= evt.dataTransfer.getData("id");
+        let tst2 = data[0].items;
+          let tst = JSON.parse(tst2);
+        tst.splice(id,1);
+        updateToDoList();
+    }
+
+
+
+       async function updateToDoList (evt) {
 
     
         let url = "/showToDoList/update";
         let divHeading = localStorage.getItem("divHeading");
-
          let updata = {
              heading: divHeading,
-             body:
+             body: JSON.stringify(tst)
          }
-     } */
+         let cfg = 
+
+     } 
+     showToDoList();
     </script>
 
     <!---------------- CSS ------------------->
