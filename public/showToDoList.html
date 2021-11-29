@@ -4,14 +4,11 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>ToDoList</title>
-    <link
-      rel="stylesheet"
-      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css"
-    />
+   
   </head>
   <body>
     <!----------- HTML-elements -------------->
-    <h1>To Do List</h1>
+    <h1 id="titel">To Do List</h1>
     <div id="container"></div>
 
     <!------------- JavaScript --------------->
@@ -22,6 +19,7 @@
       let container = document.getElementById("container");
       /* let input = document.getElementById("input");
       let newItemBtn = document.getElementById("newItemBtn"); */
+      let tittel= document.getElementById("titel");
 
 
       async function showToDoList() {
@@ -58,41 +56,50 @@
           }
 
          // container.innerHTML = ""; //delete previous content
-          let tst2 = data[0].items
+          let tst2 = data[0].items;
           let tst = JSON.parse(tst2);
 
           console.log(tst);
           console.log(data);
           
-         let div = document.createElement("div");
-          div.innerHTML += divHeading;
+         //let div = document.createElement("div");
+          tittel.innerHTML = divHeading;
         //  divItems = JSON.parse(divContent);
 
-         for (let value in tst) {
+         for (let value of tst) {
 
           console.log(value)
+          console.log(value.text);
 
-            let div1 = document.createElement("div");
-            div1.innerHTML = value.text;
+          
+          let div1= document.createElement("div");
+            let text = document.createElement("text");
+            let textValue = JSON.stringify(value.text);
+            text.innerHTML = textValue;
+            //console.log(text);
+
+            div1.appendChild(text);
            // div.appendChild(divHeading);
            //container.appendChild(div1);
 
+
             let delbtn = document.createElement("button");
             delbtn.innerHTML = "Delete";
-           // div1.appendChild(delbtn);
+           div1.appendChild(delbtn);
 
-            //container.appendChild(div);
-            delbtn.addEventListener("click", function (evt) {
-            //  container.parentElement.removeChild(div);
-              //updateToDoList();
-            });
+            container.appendChild(div1);
+           /* delbtn.addEventListener("click", function (evt) {
+             container.parentElement.removeChild(div1);
+              updateToDoList();
+            });*/
           }
+
         } catch (error) {
           console.log(error);
         }
       }
 
-      showToDoList();
+     showToDoList();
 
       /* async function updateToDoList (evt) {
 
