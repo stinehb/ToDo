@@ -24,18 +24,8 @@ router.get("/showToDoList/update", protect, async function(req, res, next) {
 
 router.get("/showAllLists", protect, async function(req, res, next) {		
 
-	let listeid = req.query.listeid;
-
-	if (listeid) {
-		//kall getListe i db.js
-	}
-	else {
-		//kall getAllToDoLists i db.js
-	}
-	
 	let userid= res.locals.userid;
 	
-
     try {
 		let data = await db.getAllToDoLists(userid);
 		res.status(200).json(data.rows).end();
