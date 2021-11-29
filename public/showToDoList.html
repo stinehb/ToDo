@@ -18,19 +18,26 @@
 
     <!------------- JavaScript --------------->
     <script src="getList.js"></script>
+    <script src="todolistview.js"></script>
+
     <script>
       // let deleteItem = document.getElementById("deleteItem");
       let container = document.getElementById("container");
       /* let input = document.getElementById("input");
       let newItemBtn = document.getElementById("newItemBtn"); */
 
+
       async function showToDoList() {
-        let url = "/showToDoList";
+        //let url = "/showToDoList";
         let token = localStorage.getItem("token");
+        let todo= new toDoList();
+        let theview = createView();
+
 
         let divHeading = localStorage.getItem("divHeading");
         let divID = localStorage.getItem("divID");
         let divContent = localStorage.getItem("divContent");
+      
       
 
         /* let updata = {
@@ -46,7 +53,7 @@
         };
 
         try {
-          let response = await fetch(url, cfg);
+          let response = await todo.getList(divID);
           let data = await response.json();
 
           if (response.status != 200) {
