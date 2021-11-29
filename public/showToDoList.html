@@ -12,8 +12,6 @@
   <body>
     <!----------- HTML-elements -------------->
     <h1>To Do List</h1>
-    <input id="input" type="text" />
-    <button id="newItemBtn">Add item to your to do list</button><br />
     <div id="container"></div>
 
     <!------------- JavaScript --------------->
@@ -31,7 +29,6 @@
         //let url = "/showToDoList";
         let token = localStorage.getItem("token");
         let todo= new toDoList();
-        let theview = createView();
 
 
         let divHeading = localStorage.getItem("divHeading");

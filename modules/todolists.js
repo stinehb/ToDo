@@ -49,11 +49,12 @@ router.get("/showToDoList", protect, async function(req, res, next) {
 
 	// let userid = res.locals.userid;
 	// let updata= req.body;
-	let id = res.locals.id;
+	let listID= req.query.id;
+	console.log(listID);
 
     try {
 		// let data = await db.showToDoList(updata.id, userid);
-		let data = await db.showToDoList(id);
+		let data = await db.showToDoList(listID);
 		res.status(200).json(data.rows).end();
 	}
 	catch(err) {
