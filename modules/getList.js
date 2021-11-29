@@ -1,5 +1,9 @@
+function toDoList() {
 
-async function getList (id){
+}
+
+
+toDoList.prototype.getList = async function (id){
 let url= "/showToDoList?id=" + id;
 return new Promise(async function(resolve, reject){
     try{
