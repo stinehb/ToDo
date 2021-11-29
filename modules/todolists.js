@@ -2,6 +2,7 @@ const express = require('express');
 const db = require('./db.js');
 const router = express.Router();
 const protect = require("./auth.js");
+const { getAllToDoLists } = require('./db.js');
 
 // endpoints ----------------------------
 
@@ -23,6 +24,15 @@ router.get("/showToDoList/update", protect, async function(req, res, next) {
 
 router.get("/showAllLists", protect, async function(req, res, next) {		
 
+	let listeid = req.query.listeid;
+
+	if (listeid) {
+		//kall getListe i db.js
+	}
+	else {
+		//kall getAllToDoLists i db.js
+	}
+	
 	let userid= res.locals.userid;
 	
 
