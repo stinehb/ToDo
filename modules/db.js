@@ -55,7 +55,7 @@ dbMethods.updateUsername = function(id){
 }
 dbMethods.updatePassword = function(id){
     let sql = "UPDATE password FROM password WHERE id = $1 RETURNING *";
-    let values [id];
+    let values = [id];
     return pool.query(sql, values); 
 }
 
