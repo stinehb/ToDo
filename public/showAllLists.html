@@ -57,12 +57,13 @@
 
             let div = document.createElement("div");
             div.innerHTML = html;
+            //console.log(value.updata.content);
 
             div.addEventListener("click", function (evt) {
               let url = "/showToDoList";
               let divContent = localStorage.setItem(
                 "divContent",
-                value.content
+                value.items
               );
               let divHeading = localStorage.setItem(
                 "divHeading",
