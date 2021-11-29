@@ -15,8 +15,7 @@
     <div id="container"></div>
 
     <!------------- JavaScript --------------->
-    <script src="getList.js"></script>
-    <script src="todolistview.js"></script>
+    
 
     <script>
       // let deleteItem = document.getElementById("deleteItem");
@@ -58,15 +57,20 @@
             throw data.error;
           }
 
-          container.innerHTML = ""; //delete previous content
+         // container.innerHTML = ""; //delete previous content
+          let tst2 = data[0].items
+          let tst = JSON.parse(tst2);
 
-          // console.log(data);
+          console.log(tst);
+          console.log(data);
           
          let div = document.createElement("div");
           div.innerHTML += divHeading;
-          divItems = JSON.parse(divContent);
+        //  divItems = JSON.parse(divContent);
 
-         for (let value of divItems) {
+         for (let value in tst) {
+
+          console.log(value)
 
             let div1 = document.createElement("div");
             div1.innerHTML = value.text;
@@ -75,7 +79,7 @@
 
             let delbtn = document.createElement("button");
             delbtn.innerHTML = "Delete";
-            div1.appendChild(delbtn);
+           // div1.appendChild(delbtn);
 
             //container.appendChild(div);
             delbtn.addEventListener("click", function (evt) {
