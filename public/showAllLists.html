@@ -11,11 +11,13 @@
     <button id="btnCreate">Make new to do list!</button>
     <div id="container"></div>
 
+    <button id="btnChangePw">Change Password</button>
     <a href="index.html">Return to Login!</a>
 
     <!------------- JavaScript --------------->
     <script>
       let btn = document.getElementById("btnCreate");
+      let btnChangePw = document.getElementById("btnChangePw");
       let container = document.getElementById("container");
 
       //-----------------------------------------------
@@ -24,6 +26,12 @@
         let url = "/createNewList";
         let token = localStorage.getItem("token");
         window.location.href = "createToDoList.html";
+      });
+      
+      btnChangePw.addEventListener("click", async function (evt) {
+        let url = "//users/updatePassword";
+        let token = localStorage.getItem("token");
+        window.location.href = "updatePassword.html";
       });
 
       async function showAllLists() {
@@ -35,7 +43,7 @@
           headers: {
             "content-type": "application/json",
             "authorization": token,
-          },
+          }
         };
 
         try {

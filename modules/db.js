@@ -48,16 +48,18 @@ dbMethods.deleteItem = function(id) {
 	let values = [id];	
     return pool.query(sql, values); 
 }
-dbMethods.updateUsername = function(id){
+
+dbMethods.updatePassword = function(password, id){
+    let sql = "UPDATE users SET password = $1 WHERE id = $2 RETURNING *";
+    let values = [password, id];
+    return pool.query(sql, values); 
+}
+
+/* dbMethods.updateUsername = function(id){
     let sql = "UPDATE username FROM users WHERE id = $1 RETURNING *";
     let values = [id];
     return pool.query(sql, values); 
-}
-dbMethods.updatePassword = function(id){
-    let sql = "UPDATE password FROM password WHERE id = $1 RETURNING *";
-    let values = [id];
-    return pool.query(sql, values); 
-}
+} */
 
 // ------------------------------------
 /*dbMethods.getAllUsers = function() {
