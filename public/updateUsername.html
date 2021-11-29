@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">    
+    <title>TestClient</title>
+</head>
+<body>
+
+    <!----------- HTML-elements -------------->
+    <h1>Create new user</h1> <br>
+    <input id="inpUsername" type="text" placeholder="User name" />
+    <input id="inpPassword" type="text" placeholder="Password" /><br></br>
+
+    <button id="btnCreate">Change password</button><br> <br>
+    <h3 id="txtResult">Result...</h3><br>
+    <a href="index.html">Return to login!</a> 
+    
+
+    <!------------- JavaScript --------------->
+    <script>
+
+    let inpUsername = document.getElementById('inpUsername');
+    let inpPassword = document.getElementById('inpPassword');
+    let btnCreate = document.getElementById('btnCreate');
+    let txtResult = document.getElementById('txtResult');
+
+    btnCreate.addEventListener('click', async function(evt) {
+
+        let url = "/users";
+        let credString = createCredentialString(inpUsername.value.toLowerCase(), inpPassword.value.toLowerCase());
+        
+        // let username, password = "";
+        //username= inpUsername.value;
+        //password=inpPassword.value;
+
+        let cfg = {
+            method: "POST",
+            headers: {"authorization":credString}
+        }
+
+        try {
+            let response = await fetch(url, cfg);
+            let data = await response.json();
+
+            if (response.status != 200) {
+                throw data.error;
+            }
+
+            txtResult.innerHTML = data.msg;
+        }
+        catch(error) {
+            console.log(error);
+            txtResult.innerHTML = "Something went wrong - check the console window";
+        }
+    });
+
+    //----------------------------------------
+    function createCredentialString(username, password){
+        let combinedStr = username + ":" + password;
+        let b64Str = btoa(combinedStr);
+        return "basic " + b64Str;
+     
+    }
+
+    </script>
+
+    <!---------------- CSS ------------------->
+    <style>        
+
+* {
+            text-align: center; 
+            margin: 0;
+            font-family: sans-serif;
+            background-color:rgb(163, 155, 144);
+            color: rgb(9, 15, 12);
+        }         
+
+input[type=text], input[type=password] {
+  width: 50%;
+  padding: 12px 20px;
+  margin: 8px 0;
+  border: 1px solid #ccc;
+  box-sizing: border-box;
+}
+
+button {
+  background-color: #04AA6D;
+  color: white;
+  padding: 14px 20px;
+  margin: 8px 0;
+  border: solid 2px rgb(102, 94, 94);
+  width: 50%;
+}
+    </style>
+
+</body>
+
+</html>
