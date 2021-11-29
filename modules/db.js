@@ -46,7 +46,17 @@ dbMethods.deleteToDoList = function(id) {
 dbMethods.deleteItem = function(id) {  
     let sql = "DELETE items FROM todolist WHERE id = $1 RETURNING *";
 	let values = [id];	
-    return pool.query(sql, values); //return the promise
+    return pool.query(sql, values); 
+}
+dbMethods.updateUsername = function(id){
+    let sql = "UPDATE username FROM users WHERE id = $1 RETURNING *";
+    let values = [id];
+    return pool.query(sql, values); 
+}
+dbMethods.updatePassword = function(id){
+    let sql = "UPDATE password FROM password WHERE id = $1 RETURNING *";
+    let values = [id];
+    return pool.query(sql, values); 
 }
 
 // ------------------------------------
