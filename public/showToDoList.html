@@ -1,224 +1,112 @@
 <!DOCTYPE html>
 <html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>ToDoList</title>
-   
-  </head>
-  <body>
-    <!----------- HTML-elements -------------->
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>ToDoList</title>
+</head>
+<body>
+  <!----------- HTML-elements -------------->
 
-    <h1 id="titel">To Do List</h1><br>
-    <input type="text" id="inp">    <button id="itemplus">Legg til en item til denne to do list</button>
-<br>
-|<div id="container"></div>
-   
-    <button id="saveBtn">Save</button>
+  <h1 id="titel">To Do List</h1><br>
+  <input type="text" id="inp"> <button id="itemplus">Legg til en item til denne to do list</button>
+  <br>
+  |<div id="container"></div>
 
-    <!------------- JavaScript --------------->
-    
+  <button id="saveBtn">Save</button>
 
-    <script>
+  <!------------- JavaScript --------------->
+  <script>
 
-      // let deleteItem = document.getElementById("deleteItem");
-      let container = document.getElementById("container");
-      /* let input = document.getElementById("input");
-      let newItemBtn = document.getElementById("newItemBtn"); */
-      let tittel= document.getElementById("titel");
-      let inp=document.getElementById("inp");
-      let btnPlusItme= document.getElementById("itemplus");
-      let saveBtn = document.getElementById("saveBtn");
-      let divHeading = localStorage.getItem("divHeading");
-        let divID = localStorage.getItem("divID");
-        let divContent = localStorage.getItem("divContent");
-        tst= JSON.parse(divContent);
-        showToDoList();
+    let container = document.getElementById("container");
+    let tittel = document.getElementById("titel");
+    let inp = document.getElementById("inp");
+    let btnPlusItme = document.getElementById("itemplus");
+    let saveBtn = document.getElementById("saveBtn");
+    let divHeading = localStorage.getItem("divHeading");
+    let divID = localStorage.getItem("divID");
+    let divContent = localStorage.getItem("divContent");
+    tst = JSON.parse(divContent);
+    showToDoList();
 
+    btnPlusItme.addEventListener("click", async function () {
 
+      let todo = {
+        text: inp.value,
+        id: Date.now(),
+      };
 
-      btnPlusItme.addEventListener("click", async function() {
+      tst.push(todo);
+      showToDoList();
+    });
 
-        let todo = {
-          text: inp.value,
-          id: Date.now(),
-        };
-        //let tst2 = data[0].items;
-         // let tst = JSON.parse(tst2);
-          tst.push(todo);
-          showToDoList();
-
-
-      });
-
-      function showToDoList() {
-        container.innerHTML= "";
+    function showToDoList() {
+      container.innerHTML = "";
 
       let token = localStorage.getItem("token");
       tittel.innerHTML = divHeading;
-      // divItems = JSON.parse(divContent);
-     // let tst2 = divContent[0].items;
-        //  let tst = JSON.parse(tst2);
-        //  console.log(divContent);
-        
-        //7  console.log(tst);
-         // let tst2 = tst[i].text;
-          //console.log(tst2);
+    
+      for (let i = 0; i < tst.length; i++) {
 
-        for(let i=0; i< tst.length ;i++){
-         // div.innerHTML = "";
-          let lol = tst[i].text;
-          let div= document.createElement("div");
-          //let item= document.createElement("text");
-          div.innerHTML= lol;
-          console.log(lol);
-         div.id= i;
-          //console.log(value)
-         
-          
+        let lol = tst[i].text;
+        let div = document.createElement("div");
 
-          let delBtn= document.createElement("button");
-          delBtn.innerHTML ="delete item";
-          div.appendChild(delBtn);
-          container.appendChild(div);
+        div.innerHTML = lol;
+        console.log(lol);
+        div.id = i;
 
-           delBtn.addEventListener("click", function (evt) {
-            
-            tst.splice(div,1);
-            showToDoList();
-           
-          });
-            
+        let delBtn = document.createElement("button");
+        delBtn.innerHTML = "delete item";
+        div.appendChild(delBtn);
+        container.appendChild(div);
 
-        }
+        delBtn.addEventListener("click", function (evt) {
+
+          tst.splice(div, 1);
+          showToDoList();
+
+        });
+
+
+      }
+    }
+
+    saveBtn.addEventListener("click", async function (evt) {
+
+      let url = "/showToDoList";
+
+      let divHeading = localStorage.getItem("divHeading");
+      let token = localStorage.getItem("token");
+
+      let updata = {
+        heading: divID,
+        body: JSON.stringify(tst)
       }
 
+      let cfg = {
+        method: "PUT",
+        headers: {
+          "content-type": "application/json",
+          "authorization": token
+        },
+        body: JSON.stringify(updata)
+      };
 
-    /*  async function showToDoList(evt) {
-        //let url = "/showToDoList";
-        let token = localStorage.getItem("token");
-      //  let todo= new toDoList();
-        
+      try {
+        let response = await fetch(url, cfg);
+        let data = await response.json();
 
-        let divHeading = localStorage.getItem("divHeading");
-        let divID = localStorage.getItem("divID");
-        let divContent = localStorage.getItem("divContent");
-      
-        let url= "/showToDoList?id=" + divID;
-        console.log(divContent);
-
-        /* let updata = {
-          heading: divID
-        }; 
-
-        let cfg = {
-          method: "GET",
-          headers: {
-            "content-type": "application/json",
-            "authorization": token,
-          }
-        };
-
-        try {
-          let response = await fetch(url, cfg);
-          let data = await response.json();
-
-          if (response.status != 200) {
-            throw data.error;
-          }
-
-         // container.innerHTML = ""; //delete previous content
-          let tst2 = data[0].items;
-          let tst = JSON.parse(tst2);
-
-          console.log(tst);
-          console.log(data);
-          
-         //let div = document.createElement("div");
-         
-
-         for (let i=0; i< tst.length; i++ ) {
-
-         
-
-          
-          let div1= document.createElement("div");
-            let text = document.createElement("text");
-            let textValue = JSON.stringify(text.value);
-            text.innerHTML = textValue;
-            //console.log(text);
-            let item;
-            // item.id=i;
-            div1.appendChild(text);
-           // div1.id= [value].tst;
-           
-            
-           // div.appendChild(divHeading);
-           //container.appendChild(div1);
-          // div1.draggable = true;
-          // div1.ondragstart = startToDoDrag;
-
-          let delBtn= document.createElement("button");
-          delBtn.innerHTML ="delete item";
-           
-           delbtn.addEventListener("click", function (evt) {
-            
-            tst.splice(item.id,1);
-            showToDoList();
-            });
-
-            container.appendChild(delBtn);
-            container.appendChild(div1);
-          }
-
-        } catch (error) {
-          console.log(error);
+        if (response.status != 200) {
+          throw data.error;
         }
-      }*/
+      } catch (error) {
+        console.log(error);
+      }
+    })
 
-   
-     saveBtn.addEventListener("click", async function (evt) {
+  </script>
 
-    
-        let url = "/showToDoList";
+  <!---------------- CSS ------------------->
 
-        let divHeading = localStorage.getItem("divHeading");
-        let token = localStorage.getItem("token");
-
-        
-         let updata = {
-             heading: divID,
-             body: JSON.stringify(tst)
-         }
-        
-    
-
-        let cfg = {
-          method: "PUT",
-          headers: {
-            "content-type": "application/json",
-            "authorization": token
-          },
-          body: JSON.stringify(updata)
-        };
-
-        try{
-          let response = await fetch(url, cfg);
-          let data= await response.json();
-         
-          if (response.status != 200) {
-            throw data.error;
-          }
-        } catch (error) {
-          console.log(error);
-        }
-     })
-
-
-    
-    </script>
-
-    <!---------------- CSS ------------------->
-    
-  </body>
+</body>
 </html>
