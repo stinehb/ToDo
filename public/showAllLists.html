@@ -95,15 +95,19 @@
 
             let shareBtn = document.createElement("button");
             shareBtn.innerHTML = "share your list with someone!";
+            container.appendChild(shareBtn);
 
             shareBtn.addEventListener("click", function (evt) {
               let usernameInp = document.createElement("input");
               usernameInp.type = "text";
               usernameInp.placeholder =
                 "skriv inn brukernavn til en som du vil dele listen med";
+                container.appendChild(usernameInp);
               let bekreftBtn = document.createElement("button");
               bekreftBtn.innerHTML = "share your list with this user";
+              container.appendChild(bekreftBtn);
               bekreftBtn.addEventListener("click", async function (evt) {
+                
                 let url= "/getUserId";
                 let updata={
                   "username" : usernameInp.value
