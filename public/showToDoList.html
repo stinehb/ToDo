@@ -26,7 +26,9 @@
       let inp=document.getElementById("inp");
       let btnPlusItme= document.getElementById("itemplus");
       let saveBtn = document.getElementById("saveBtn");
-      showToDoList();
+      let divHeading = localStorage.getItem("divHeading");
+        let divID = localStorage.getItem("divID");
+        let divContent = localStorage.getItem("divContent");
 
 
 
@@ -43,8 +45,35 @@
 
 
       });
+      function showToDoList() {
 
-      async function showToDoList(evt) {
+      let token = localStorage.getItem("token");
+      
+     
+
+        for(let i=0; i < divContent.length; i++){
+          let div= document.createElement("div");
+          //let item= document.createElement("text");
+          div.innerHTML= divContent[i];
+          div.id= i;
+
+          container.appendChild(div);
+
+          let delBtn= document.createElement("button");
+          delBtn.innerHTML ="delete item";
+           
+           delBtn.addEventListener("click", function (evt) {
+            
+            divContent.splice(div.id,1);
+            showToDoList();
+            });
+            container.appendChild(delBtn);
+
+        }
+      }
+
+
+    /*  async function showToDoList(evt) {
         //let url = "/showToDoList";
         let token = localStorage.getItem("token");
       //  let todo= new toDoList();
@@ -55,11 +84,11 @@
         let divContent = localStorage.getItem("divContent");
       
         let url= "/showToDoList?id=" + divID;
-
+        console.log(divContent);
 
         /* let updata = {
           heading: divID
-        }; */
+        }; 
 
         let cfg = {
           method: "GET",
@@ -118,47 +147,29 @@
             tst.splice(item.id,1);
             showToDoList();
             });
-            
-            div1.appendChild(delBtn);
+
+            container.appendChild(delBtn);
             container.appendChild(div1);
           }
 
         } catch (error) {
           console.log(error);
         }
-      }
+      }*/
 
-     /* function startToDoDrag (evt) {
-  //tst.findIndex(x => x.id === evt.target.id);
-  evt.dataTransfer.setData("id", evt.target.id);
-
-
-}
-garbageBin.ondragover= function(evt) {
-        evt.preventDefault(); 
-       // evt.dataTransfer.dropEffect = "move";        
-    }
-
-    // drop --------------------------------------------
-   garbageBin.ondrop= function(evt) {        
-        let id= evt.dataTransfer.getData("id");
-        let tst2 = data[0].items;
-          let tst = JSON.parse(tst2);
-        tst.splice(id,1);
-        showToDoList();
-    }*/
-
-
-
+   
      saveBtn.addEventListener("click", async function updateToDoList (evt) {
 
     
         let url = "/showToDoList/update";
+
         let divHeading = localStorage.getItem("divHeading");
+        let token = localStorage.getItem("token");
+
         
          let updata = {
              heading: divHeading,
-             body: JSON.stringify(tst)
+             body: JSON.stringify(divContent)
          }
         
     
@@ -182,135 +193,13 @@ garbageBin.ondragover= function(evt) {
         } catch (error) {
           console.log(error);
         }
-     });
+     })
+
+
+     showToDoList();
     </script>
 
     <!---------------- CSS ------------------->
-    <style>
-     
-div {
-    height: 35px;
-    border-bottom: 1px solid black;
-   
-   
-    padding-left: 5px;
-    background-color: azure;
-    cursor: pointer;
-}
-button {
- size: auto;
-  float: right;
-}
-
-
-   
-   .icon-trash {
-  width: 48px;
-  height: 48px;
-  position: relative;
-  overflow: hidden;
-  margin-left: 1px;
-  margin-top: 100px;
- 
-  
-}
-.icon-trash:hover {
-  cursor: pointer;
-}
-
-.icon-trash .trash-lid {
-  width: 62%;
-  height: 10%;
-  position: absolute;
-  left: 50%;
-  margin-left: -31%;
-  top: 10.5%;
-  background-color: #000;
-  border-top-left-radius: 80%;
-  border-top-right-radius: 80%;
-  -webkit-transform: rotate(-5deg);
-  -moz-transform: rotate(-5deg);
-  -ms-transform: rotate(-5deg);
-  transform: rotate(-5deg); 
-}
-
-.icon-trash .trash-lid:after {
-  content: "";
-  width: 26%;
-  height: 100%;
-  position: absolute;
-  left: 50%;
-  margin-left: -13%;
-  margin-top: -10%;
-  background-color: inherit;
-  border-top-left-radius: 30%;
-  border-top-right-radius: 30%;
-  -webkit-transform: rotate(-1deg);
-  -moz-transform: rotate(-1deg);
-  -ms-transform: rotate(-1deg);
-  transform: rotate(-1deg); 
-}
-
-.icon-trash .trash-container {
-  width: 56%;
-  height: 65%;
-  position: absolute;
-  left: 50%;
-  margin-left: -28%;
-  bottom: 10%;
-  background-color: #000;
-  border-bottom-left-radius: 15%;
-  border-bottom-right-radius: 15%;
-}
-
-.icon-trash .trash-container:after {
-  content: "";
-  width: 110%;
-  height: 12%;
-  position: absolute;
-  left: 50%;
-  margin-left: -55%;
-  top: 0;
-  background-color: inherit;
-  border-bottom-left-radius: 45%;
-  border-bottom-right-radius: 45%;
-}
-
-.icon-trash .trash-line-1 {
-  width: 4%;
-  height: 50%;
-  position: absolute;
-  left: 38%;
-  margin-left: -2%;
-  bottom: 17%;
-  background-color: #252527;
-}
-
-.icon-trash .trash-line-2 {
-  width: 4%;
-  height: 50%;
-  position: absolute;
-  left: 50%;
-  margin-left: -2%;
-  bottom: 17%;
-  background-color: #252527;
-}
-
-.icon-trash .trash-line-3 {
-  width: 4%;
-  height: 50%;
-  position: absolute;
-  left: 62%;
-  margin-left: -2%;
-  bottom: 17%;
-  background-color: #252527;
-}
-
-a {
-  position: absolute;
-  bottom: 12px;
-  right: 20px;
-}
-    </style>
+    
   </body>
 </html>

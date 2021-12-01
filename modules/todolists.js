@@ -9,11 +9,11 @@ const { getAllToDoLists } = require('./db.js');
 
 router.put("/showToDoList/update", protect, async function(req, res, next) {
 
-	let items = req.updata;
+	let updata = req.body;
 	let id= req.query.id;
 
 	try {
-		let data= await db.updateToDoList(items, id);
+		let data= await db.updateToDoList(updata.body, id);
 		res.status(200).json(data.rows).end();
 	}
 	catch(err){
