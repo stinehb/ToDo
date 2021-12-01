@@ -13,12 +13,14 @@
 
     <button id="btnChangePw">Change Password</button>
     <a href="index.html">Return to Login!</a>
+    <button id="sharedLists">Show me all shared lists</button>
 
     <!------------- JavaScript --------------->
     <script>
       let btn = document.getElementById("btnCreate");
       let btnChangePw = document.getElementById("btnChangePw");
       let container = document.getElementById("container");
+      let sharedBtn= document.getElementById("sharedLists");
 
       //-----------------------------------------------
 
@@ -137,6 +139,12 @@
 
       // start ----------------------------------------
       showAllLists();
+
+      sharedBtn.addEventListener("click", function(evt) {
+        window.location.href = "showSharedLists.html";
+
+      });
+      
     </script>
 
     <!---------------- CSS ------------------->
