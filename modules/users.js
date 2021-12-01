@@ -69,10 +69,10 @@ router.post("/users/login", async function (req, res, next) {
       if (data.rows.length > 0) {
         res
           .status(200)
-          .json({ msg: "The to do list was deleted succefully" })
+          .json({ msg: "The password was successfully updated" })
           .end();
       } else {
-        throw "The to do list couldn't be deleted";
+        throw "The password could not be updated";
       }
     } catch (err) {
       next(err);
