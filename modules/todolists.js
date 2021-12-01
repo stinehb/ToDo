@@ -6,6 +6,36 @@ const { getAllToDoLists } = require("./db.js");
 
 // endpoints ----------------------------
 
+router.post("/createNewList", protect, async function (req, res, next) {
+  let updata = req.body;
+  let userid = res.locals.userid;
+
+  try {
+    let data = await db.createToDoList(updata.heading, updata.content, userid);
+
+    if (data.rows.length > 0) {
+      res
+        .status(200)
+        .json({ msg: "You have successfully added item to to do list." })
+        .end();
+    }
+  } catch (err) {
+    next(err);
+  }
+});
+
+router.get("/showToDoList", protect, async function (req, res, next) {
+  let listID = req.query.id;
+  console.log(listID);
+
+  try {
+    let data = await db.showToDoList(listID);
+    res.status(200).json(data.rows).end();
+  } catch (err) {
+    next(err);
+  }
+});
+
 router.put("/showToDoList", protect, async function (req, res, next) {
   let updata = req.body;
 
@@ -28,36 +58,6 @@ router.get("/showAllLists", protect, async function (req, res, next) {
   }
 });
 
-router.get("/showToDoList", protect, async function (req, res, next) {
-  let listID = req.query.id;
-  console.log(listID);
-
-  try {
-    let data = await db.showToDoList(listID);
-    res.status(200).json(data.rows).end();
-  } catch (err) {
-    next(err);
-  }
-});
-
-router.post("/createNewList", protect, async function (req, res, next) {
-  let updata = req.body;
-  let userid = res.locals.userid;
-
-  try {
-    let data = await db.createToDoList(updata.heading, updata.content, userid);
-
-    if (data.rows.length > 0) {
-      res
-        .status(200)
-        .json({ msg: "You have successfully added item to to do list." })
-        .end();
-    }
-  } catch (err) {
-    next(err);
-  }
-});
-
 router.delete("/showAllLists", protect, async function (req, res, next) {
   let updata = req.body;
   try {
@@ -74,5 +74,41 @@ router.delete("/showAllLists", protect, async function (req, res, next) {
     next(err);
   }
 });
+
+router.get("/getUserId", protect, async function (req, res, next) {
+	let updata = req.body;
+	// let userid = res.locals.userid;
+  
+	try {
+	  let data = await db.getUserId(updata.username);
+  
+	  if (data.rows.length > 0) {
+		res
+		  .status(200)
+		  .json({ msg: "You have successfully added item to to do list." })
+		  .end();
+	  }
+	} catch (err) {
+	  next(err);
+	}
+  });
+
+  router.put("/showSharedLists", protect, async function (req, res, next) {
+	let updata = req.body;
+	let listid = res.locals.id;
+  
+	try {
+	  let data = await db.shareToDoList(listid, sharedid); 
+  
+	  if (data.rows.length > 0) {
+		res
+		  .status(200)
+		  .json({ msg: "You have successfully added item to to do list." })
+		  .end();
+	  }
+	} catch (err) {
+	  next(err);
+	}
+  });
 
 module.exports = router;

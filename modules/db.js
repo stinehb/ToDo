@@ -55,9 +55,9 @@ dbMethods.updatePassword = function(password, salt, username){
     return pool.query(sql, values); 
 }
 
-dbMethods.shareToDoList = function(userid, sharedid){
-    let sql = "UPDATE todolist SET sharedid = $2 WHERE userid = $1 RETURNING *";
-    let values = [userid, sharedid];
+dbMethods.shareToDoList = function(listid, sharedid){
+    let sql = "UPDATE todolist SET sharedid = $2 WHERE id = $1 RETURNING *";
+    let values = [listid, sharedid];
     return pool.query(sql, values); 
 }
 
