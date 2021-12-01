@@ -12,6 +12,14 @@
     <input type="text" id="inp">    <button id="itemplus">Legg til en item til denne to do list</button>
 <br>
     <div id="container"></div>
+    <div id="bin" class="icon-trash" style="float: left;">
+      <div class="trash-lid" style="background-color: #E5E9EA"></div>
+      <div class="trash-container" style="background-color: #E5E9EA"></div>
+      <div class="trash-line-1"></div>
+      <div class="trash-line-2"></div>
+      <div class="trash-line-3"></div>
+    </div>
+    <button id="saveBtn">Save</button>
 
     <!------------- JavaScript --------------->
     
@@ -24,6 +32,11 @@
       let tittel= document.getElementById("titel");
       let inp=document.getElementById("inp");
       let btnPlusItme= document.getElementById("itemplus");
+      let garbageBin= document.getElementById("bin");
+      let saveBtn = document.getElementById("saveBtn");
+      showToDoList();
+
+
 
       btnPlusItme.addEventListener("click", async function() {
 
@@ -34,12 +47,12 @@
         let tst2 = data[0].items;
           let tst = JSON.parse(tst2);
           tst.push(todo);
-          updateToDoList();
+          
 
 
       });
 
-      async function showToDoList() {
+      async function showToDoList(evt) {
         //let url = "/showToDoList";
         let token = localStorage.getItem("token");
       //  let todo= new toDoList();
@@ -83,7 +96,7 @@
           tittel.innerHTML = divHeading;
         //  divItems = JSON.parse(divContent);
 
-         for (let value of tst) {
+         for (let i=0; i< tst.lenght; i++ ) {
 
           console.log(value)
           console.log(value.text);
@@ -91,27 +104,30 @@
           
           let div1= document.createElement("div");
             let text = document.createElement("text");
-            let textValue = JSON.stringify(value.text);
+            let textValue = JSON.stringify(text.value);
             text.innerHTML = textValue;
             //console.log(text);
-
+            let item;
+            item.id=i;
             div1.appendChild(text);
+           // div1.id= [value].tst;
+           
+            
            // div.appendChild(divHeading);
            //container.appendChild(div1);
-           div1.draggable = true;
-           div1.ondragstart = startToDoDrag();
+          // div1.draggable = true;
+          // div1.ondragstart = startToDoDrag;
 
-
-           // let delbtn = document.createElement("button");
-          //  delbtn.innerHTML = "Delete";
-          // div1.appendChild(delbtn);
-
+          let delBtn= document.createElement("button");
+          delBtn.innerHTML ="delete item";
+           
+           delbtn.addEventListener("click", function (evt) {
+            
+            tst.splice(item.id,1);
+            showToDoList();
+            });
+            div1.appendChild(delBtn);
             container.appendChild(div1);
-         /*  delbtn.addEventListener("click", function (evt) {
-
-             container.parentElement.removeChild(div1);
-              updateToDoList();
-            });*/
           }
 
         } catch (error) {
@@ -119,8 +135,11 @@
         }
       }
 
-      function startBoxDrag (evt) {
+     /* function startToDoDrag (evt) {
+  //tst.findIndex(x => x.id === evt.target.id);
   evt.dataTransfer.setData("id", evt.target.id);
+
+
 }
 garbageBin.ondragover= function(evt) {
         evt.preventDefault(); 
@@ -133,44 +152,172 @@ garbageBin.ondragover= function(evt) {
         let tst2 = data[0].items;
           let tst = JSON.parse(tst2);
         tst.splice(id,1);
-        updateToDoList();
-    }
+        showToDoList();
+    }*/
 
 
 
-      /* async function updateToDoList (evt) {
+     saveBtn.addEventListener("click", async function updateToDoList (evt) {
 
     
         let url = "/showToDoList/update";
         let divHeading = localStorage.getItem("divHeading");
+        
          let updata = {
              heading: divHeading,
              body: JSON.stringify(tst)
          }
-         let cfg = 
+        
+    
 
-     } */
-     showToDoList();
+        let cfg = {
+          method: "UPDATE",
+          headers: {
+            "content-type": "application/json",
+            "authorization": token
+          },
+          body: JSON.stringify(updata)
+        };
+
+        try{
+          let response = await fetch(url, cfg);
+          let data= await response.json();
+         
+          if (response.status != 200) {
+            throw data.error;
+          }
+        } catch (error) {
+          console.log(error);
+        }
+     });
     </script>
 
     <!---------------- CSS ------------------->
     <style>
-      * {
-        margin: 0;
-        font-family: sans-serif;
-        background-color: rgb(163, 155, 144);
-        color: rgb(9, 15, 12);
-      }
-      input {
-        background-color: rgb(248, 244, 239);
-        opacity: 1;
-      }
-      button {
-        background-color: rgb(126, 121, 121);
-      }
-      .deleteList {
-        border-radius: 50%;
-      }
+     
+div {
+    height: 35px;
+    border-bottom: 1px solid black;
+   
+   
+    padding-left: 5px;
+    background-color: azure;
+    cursor: pointer;
+}
+button {
+ size: auto;
+  float: right;
+}
+
+
+   
+   .icon-trash {
+  width: 48px;
+  height: 48px;
+  position: relative;
+  overflow: hidden;
+  margin-left: 1px;
+  margin-top: 100px;
+ 
+  
+}
+.icon-trash:hover {
+  cursor: pointer;
+}
+
+.icon-trash .trash-lid {
+  width: 62%;
+  height: 10%;
+  position: absolute;
+  left: 50%;
+  margin-left: -31%;
+  top: 10.5%;
+  background-color: #000;
+  border-top-left-radius: 80%;
+  border-top-right-radius: 80%;
+  -webkit-transform: rotate(-5deg);
+  -moz-transform: rotate(-5deg);
+  -ms-transform: rotate(-5deg);
+  transform: rotate(-5deg); 
+}
+
+.icon-trash .trash-lid:after {
+  content: "";
+  width: 26%;
+  height: 100%;
+  position: absolute;
+  left: 50%;
+  margin-left: -13%;
+  margin-top: -10%;
+  background-color: inherit;
+  border-top-left-radius: 30%;
+  border-top-right-radius: 30%;
+  -webkit-transform: rotate(-1deg);
+  -moz-transform: rotate(-1deg);
+  -ms-transform: rotate(-1deg);
+  transform: rotate(-1deg); 
+}
+
+.icon-trash .trash-container {
+  width: 56%;
+  height: 65%;
+  position: absolute;
+  left: 50%;
+  margin-left: -28%;
+  bottom: 10%;
+  background-color: #000;
+  border-bottom-left-radius: 15%;
+  border-bottom-right-radius: 15%;
+}
+
+.icon-trash .trash-container:after {
+  content: "";
+  width: 110%;
+  height: 12%;
+  position: absolute;
+  left: 50%;
+  margin-left: -55%;
+  top: 0;
+  background-color: inherit;
+  border-bottom-left-radius: 45%;
+  border-bottom-right-radius: 45%;
+}
+
+.icon-trash .trash-line-1 {
+  width: 4%;
+  height: 50%;
+  position: absolute;
+  left: 38%;
+  margin-left: -2%;
+  bottom: 17%;
+  background-color: #252527;
+}
+
+.icon-trash .trash-line-2 {
+  width: 4%;
+  height: 50%;
+  position: absolute;
+  left: 50%;
+  margin-left: -2%;
+  bottom: 17%;
+  background-color: #252527;
+}
+
+.icon-trash .trash-line-3 {
+  width: 4%;
+  height: 50%;
+  position: absolute;
+  left: 62%;
+  margin-left: -2%;
+  bottom: 17%;
+  background-color: #252527;
+}
+
+a {
+  position: absolute;
+  bottom: 12px;
+  right: 20px;
+}
     </style>
   </body>
 </html>
