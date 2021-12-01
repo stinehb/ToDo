@@ -130,7 +130,7 @@
                 if (response.status != 200) {
                   throw data.error;
                 }
-                console.log(data);
+                shareYourList(data, value.id);
 
               } catch (error) {
                 console.log(error);
@@ -184,16 +184,35 @@
       window.location.href = "showSharedLists.html";
     });
 
-    function shareYourList(username, id) {
-      let url = "/getUserId";
 
+
+    async function shareYourList(userid, id) {
+      let url = "/showSharedLists";
+      let token=localStorage.getItem("token");
+      
       let updata = {
-        "username": username,
+        "userid": userid,
         "id": id
-      }
+      };
 
-      let cfg = {}
-    }
+      let cfg = {
+        method: "PUT",
+        headers: { "content-type": "application/json", "authorization": token },
+        body: JSON.stringify(updata),
+      };
+      try{
+        let response = await fetch(url, cfg);
+        let data = await response.json();
+
+        if (response.status != 200) {
+          throw data.error;
+        }
+       
+      } catch (error) {
+        console.log(error);
+      }
+      }
+    
   </script>
 
   <!---------------- CSS ------------------->

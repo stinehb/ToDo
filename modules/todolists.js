@@ -85,7 +85,7 @@ router.get("/getUserId",protect, async function (req, res, next) {
 	  if (data.rows.length > 0) {
 		res
 		  .status(200)
-		  .json({ msg:"It worked!" })
+		  .json(1)
 		  .end();
 	  }
 	} catch (err) {
@@ -94,11 +94,11 @@ router.get("/getUserId",protect, async function (req, res, next) {
   });
 
   router.put("/showSharedLists", protect, async function (req, res, next) {
+	
 	let updata = req.body;
-	let listid = res.locals.id;
   
 	try {
-	  let data = await db.shareToDoList(sharedid, listid); 
+	  let data = await db.shareToDoList(updata.userid,updata.id); 
   
 	  if (data.rows.length > 0) {
 		res
