@@ -50,20 +50,22 @@ router.post("/users/login", async function (req, res, next) {
   } catch (err) {
     next(err);
   }
+});
+
 
   router.put("/users/updatePassword", async function (req, res, next) {
     let credString = req.headers.authorization;
     let cred = authUtils.decodeCred(credString);
-
+    console.log(cred);
     if (cred.username == "" || cred.password == "") {
       res.status(401).json({ error: "No username or password" }).end();
       return;
     }
 
-    let updata = req.body;
+    let hash = authUtils.createHash(cred.password);
 
     try {
-      let data = await db.updatePassword(cred.password, updata.id);
+      let data = await db.updatePassword(hash.value, hash.salt, cred.username);
       if (data.rows.length > 0) {
         res
           .status(200)
@@ -76,7 +78,6 @@ router.post("/users/login", async function (req, res, next) {
       next(err);
     }
   });
-});
 
 // list all users -------------------------------
 /*router.get("/users", async function(req, res, next){
