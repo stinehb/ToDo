@@ -16,7 +16,6 @@ dbMethods.getAllToDoLists = function(userid) {
 	return pool.query(sql, values); //return the promise	
 }
 
-
 dbMethods.showToDoList= function (id) {
     let sql = "SELECT * FROM todolist WHERE id = $1";
     let values = [id];
@@ -87,8 +86,6 @@ dbMethods.deleteUser = function(id) {
 	let values = [id];	
     return pool.query(sql, values); //return the promise
 }
-
-
 
 // export dbMethods -------------------------
 module.exports = dbMethods;
