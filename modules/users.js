@@ -39,7 +39,7 @@ router.post("/users/login", async function (req, res, next) {
             msg: "The login was successful!",
             token: tok,
           })
-          .end();
+          // .end();
       } else {
         res.status(403).json({ error: "Password not correct." }).end();
       }
