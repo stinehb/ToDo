@@ -25,7 +25,6 @@
       let tittel= document.getElementById("titel");
       let inp=document.getElementById("inp");
       let btnPlusItme= document.getElementById("itemplus");
-      let garbageBin= document.getElementById("bin");
       let saveBtn = document.getElementById("saveBtn");
       showToDoList();
 
@@ -119,6 +118,7 @@
             tst.splice(item.id,1);
             showToDoList();
             });
+            
             div1.appendChild(delBtn);
             container.appendChild(div1);
           }
