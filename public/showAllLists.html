@@ -9,13 +9,16 @@
 
 <body>
   <!----------- HTML-elements -------------->
+  
   <br />
   <button id="btnCreate">Make new to do list!</button>
   <div id="container"></div>
 
   <button id="btnChangePw">Change Password</button>
+  
+  <button id="sharedLists">Show me all shared lists</button><br><br>
   <a href="index.html">Return to Login!</a>
-  <button id="sharedLists">Show me all shared lists</button>
+  <div style="height: 100vh;"></div>
 
   <!------------- JavaScript --------------->
   <script>
@@ -217,22 +220,44 @@
 
   <!---------------- CSS ------------------->
   <style>
-    * {
+    html {
+      background-image: linear-gradient(blue, gray);
+  }
+
+  body {
       text-align: center;
-      margin: 0;
       font-family: sans-serif;
-      background-color: rgb(163, 155, 144);
       color: rgb(9, 15, 12);
-    }
+      border: solid 10px rgb(27, 18, 18);
+      align-items: center;
 
-    button {
-      background-color: rgb(126, 121, 121);
-    }
+  }
+input[type=text], input[type=text] {
+width: 50%;
+padding: 12px 20px;
+margin: 8px 0;
+border: none;
+box-sizing: border-box;
+}
 
-    div:hover {
-      background-color: paleturquoise;
-      cursor: pointer;
-    }
+button {
+background-color: gray;
+color: rgb(5, 5, 5);
+padding: 14px 20px;
+margin: 8px 0;
+border: solid 2px rgb(3, 3, 3);
+width: 50%;
+}
+
+a:link {
+text-decoration: none;
+color: black;
+padding: 3px;
+border: solid 3px;
+border-radius: 0%;
+background-color: gray;
+
+}
   </style>
 </body>
 
