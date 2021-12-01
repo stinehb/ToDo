@@ -46,7 +46,7 @@
         method: "GET",
         headers: {
           "content-type": "application/json",
-          authorization: token,
+          "authorization": token,
         },
       };
 
@@ -111,15 +111,16 @@
             container.appendChild(bekreftBtn);
 
             bekreftBtn.addEventListener("click", async function (evt) {
-              let url = "/getUserId";
-              let updata = {
-                "username": usernameInp.value
-              };
+              //let username = usernameInp.value;
+
+              let url = "/getUserId?username=" + usernameInp.value;
+              
 
               let cfg = {
                 method: "GET",
-                headers: { "content-type": "application/json" },
-                body: updata
+                headers: { "content-type": "application/json",
+              "authorization": token }
+               
               };
 
               try {

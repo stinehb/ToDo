@@ -39,7 +39,7 @@
             let div = document.createElement("div");
             div.innerHTML = html;
 
-            div.addEventListener("click", function (evt) {
+         /*   div.addEventListener("click", function (evt) {
               let url = "/showToDoList";
               let divContent = localStorage.setItem(
                 "divContent",
@@ -51,11 +51,11 @@
               );
               let divID = localStorage.setItem("divID", value.id);
               window.location.href = "showToDoList.html";
-            });
+            });*/
 
             container.appendChild(div);
 
-            let delbtn = document.createElement("button");
+           /* let delbtn = document.createElement("button");
             delbtn.innerHTML = "Delete";
            container.appendChild(delbtn);
 
@@ -64,7 +64,7 @@
                     delbtn.addEventListener('click', function(evt) {
                         deleteLists(value.id);
                     });
-
+*/
           }
         } catch (error) {
           console.log(error);

@@ -75,17 +75,17 @@ router.delete("/showAllLists", protect, async function (req, res, next) {
   }
 });
 
-router.get("/getUserId", protect, async function (req, res, next) {
-	let updata = req.body;
+router.get("/getUserId",protect, async function (req, res, next) {
+	let updata = req.query.username;
 	// let userid = res.locals.userid;
-  
+	
 	try {
-	  let data = await db.getUserId(updata.username);
+	  let data = await db.getUserId(updata);
   
 	  if (data.rows.length > 0) {
 		res
 		  .status(200)
-		  .json({ msg: "You have successfully added item to to do list." })
+		  .json({ msg:"It worked!" })
 		  .end();
 	  }
 	} catch (err) {
@@ -98,7 +98,7 @@ router.get("/getUserId", protect, async function (req, res, next) {
 	let listid = res.locals.id;
   
 	try {
-	  let data = await db.shareToDoList(listid, sharedid); 
+	  let data = await db.shareToDoList(sharedid, listid); 
   
 	  if (data.rows.length > 0) {
 		res
