@@ -55,17 +55,17 @@ dbMethods.updatePassword = function(password, salt, username){
     return pool.query(sql, values); 
 }
 
-/* dbMethods.updateUsername = function(id){
-    let sql = "UPDATE username FROM users WHERE id = $1 RETURNING *";
-    let values = [id];
+dbMethods.shareToDoList = function(userid, sharedid){
+    let sql = "UPDATE todolist SET sharedid = $2 WHERE userid = $1 RETURNING *";
+    let values = [userid, sharedid];
     return pool.query(sql, values); 
-} */
+}
 
-// ------------------------------------
-/*dbMethods.getAllUsers = function() {
-    let sql = "SELECT id, username FROM users";	
-	return pool.query(sql); //return the promise	
-}*/
+dbMethods.getUserId = function(username){
+    let sql = "SELECT userid FROM users WHERE username = $1 RETURNING *";
+    let values = [username];
+    return pool.query(sql, values); 
+}
 
 // ------------------------------------
 dbMethods.getUser = function(username) {
