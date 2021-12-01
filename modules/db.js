@@ -49,9 +49,9 @@ dbMethods.deleteItem = function(id) {
     return pool.query(sql, values); 
 }
 
-dbMethods.updatePassword = function(password, id){
-    let sql = "UPDATE users SET password = $1 WHERE id = $2 RETURNING *";
-    let values = [password, id];
+dbMethods.updatePassword = function(password, salt, username){
+    let sql = "UPDATE users SET password = $1, salt = $2 WHERE username = $3 RETURNING *";
+    let values = [password, salt, username];
     return pool.query(sql, values); 
 }
 
