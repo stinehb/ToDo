@@ -58,7 +58,7 @@
 
           for (let value of data) {
             let date = new Date(value.date);
-
+            console.log(value);
             let html = "<h2>" + value.heading + "</h2>";
             html += "<p>" + date.toLocaleDateString() + "</p>";
             //html += "<p>" + value.item + "</p><hr>";
@@ -80,20 +80,21 @@
               let divID = localStorage.setItem("divID", value.id);
               window.location.href = "showToDoList.html";
             });
+
             container.appendChild(div);
 
             let delbtn = document.createElement("button");
             delbtn.innerHTML = "Delete";
-           div.appendChild(delbtn);
+           container.appendChild(delbtn);
 
-            /* let delbtn = document.createElement("button");
-                    delbtn.innerHTML = "Delete";
+            // let delbtn = document.createElement("button");
+                 //   delbtn.innerHTML = "Delete";
 
                     delbtn.addEventListener('click', function(evt) {
                         deleteLists(value.id);
                     });
 
-                    div.insertBefore(delbtn, div.lastElementChild); */
+                   // div.insertBefore(delbtn, div.lastElementChild); 
           }
         } catch (error) {
           console.log(error);
@@ -103,6 +104,7 @@
       //-----------------------------------------------
       async function deleteLists(todoID) {
         let url = "/showAllLists";
+        let token = localStorage.getItem("token");
 
         //let url = "/showAllLists?listeid=" + variabel;
 
@@ -112,7 +114,9 @@
 
         let cfg = {
           method: "DELETE",
-          headers: { "content-type": "application/json" },
+          headers: { "content-type": "application/json",
+          "authorization": token
+         },
           body: JSON.stringify(updata),
         };
 
@@ -123,6 +127,7 @@
           if (response.status != 200) {
             throw data.error;
           }
+          showAllLists();
 
           showAllLists(); //refresh the list
         } catch (error) {
