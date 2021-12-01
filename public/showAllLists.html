@@ -20,7 +20,7 @@
       let btn = document.getElementById("btnCreate");
       let btnChangePw = document.getElementById("btnChangePw");
       let container = document.getElementById("container");
-      let sharedBtn= document.getElementById("sharedLists");
+      let sharedBtn = document.getElementById("sharedLists");
 
       //-----------------------------------------------
 
@@ -29,7 +29,7 @@
         let token = localStorage.getItem("token");
         window.location.href = "createToDoList.html";
       });
-      
+
       btnChangePw.addEventListener("click", async function (evt) {
         let url = "/users/updatePassword";
         let token = localStorage.getItem("token");
@@ -44,8 +44,8 @@
           method: "GET",
           headers: {
             "content-type": "application/json",
-            "authorization": token,
-          }
+            authorization: token,
+          },
         };
 
         try {
@@ -71,10 +71,7 @@
 
             div.addEventListener("click", function (evt) {
               let url = "/showToDoList";
-              let divContent = localStorage.setItem(
-                "divContent",
-                value.items
-              );
+              let divContent = localStorage.setItem("divContent", value.items);
               let divHeading = localStorage.setItem(
                 "divHeading",
                 value.heading
@@ -87,17 +84,53 @@
 
             let delbtn = document.createElement("button");
             delbtn.innerHTML = "Delete";
-           container.appendChild(delbtn);
+            container.appendChild(delbtn);
 
             // let delbtn = document.createElement("button");
-                 //   delbtn.innerHTML = "Delete";
+            //   delbtn.innerHTML = "Delete";
 
-                    delbtn.addEventListener('click', function(evt) {
-                        deleteLists(value.id);
-                    });
+            delbtn.addEventListener("click", function (evt) {
+              deleteLists(value.id);
+            });
 
-                   // div.insertBefore(delbtn, div.lastElementChild); 
+            let shareBtn = document.createElement("button");
+            shareBtn.innerHTML = "share your list with someone!";
+
+            shareBtn.addEventListener("click", function (evt) {
+              let usernameInp = document.createElement("input");
+              usernameInp.type = "text";
+              usernameInp.placeholder =
+                "skriv inn brukernavn til en som du vil dele listen med";
+              let bekreftBtn = document.createElement("button");
+              bekreftBtn.innerHTML = "share your list with this user";
+              bekreftBtn.addEventListener("click", async function (evt) {
+                let url= "/getUserId";
+                let updata={
+                  "username" : usernameInp.value
+                };
+
+                let cfg = {
+                  method: "GET",
+                  headers: { "content-type": "application/json"},
+                  body: updata };
+                  
+                  try{
+                    let response = await fetch(url, cfg);
+          let data = await response.json();
+
+          if (response.status != 200) {
+            throw data.error;
           }
+          console.log(data);
+        
+        } catch (error) {
+          console.log(error);
+        }
+           });
+           
+          });
+          }
+
         } catch (error) {
           console.log(error);
         }
@@ -116,9 +149,7 @@
 
         let cfg = {
           method: "DELETE",
-          headers: { "content-type": "application/json",
-          "authorization": token
-         },
+          headers: { "content-type": "application/json", "authorization": token },
           body: JSON.stringify(updata),
         };
 
@@ -129,7 +160,7 @@
           if (response.status != 200) {
             throw data.error;
           }
-          showAllLists();
+         // showAllLists();
 
           showAllLists(); //refresh the list
         } catch (error) {
@@ -140,11 +171,20 @@
       // start ----------------------------------------
       showAllLists();
 
-      sharedBtn.addEventListener("click", function(evt) {
+      sharedBtn.addEventListener("click", function (evt) {
         window.location.href = "showSharedLists.html";
-
       });
-      
+
+      function shareYourList(username, id) {
+        let url= "/getUserId";
+
+        let updata= {
+          "username": username,
+          "id": id
+        }
+
+        let cfg = {}
+      }
     </script>
 
     <!---------------- CSS ------------------->
