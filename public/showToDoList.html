@@ -8,9 +8,11 @@
   </head>
   <body>
     <!----------- HTML-elements -------------->
+
     <h1 id="titel">To Do List</h1><br>
     <input type="text" id="inp">    <button id="itemplus">Legg til en item til denne to do list</button>
 <br>
+|<div id="container"></div>
    
     <button id="saveBtn">Save</button>
 
@@ -18,6 +20,7 @@
     
 
     <script>
+
       // let deleteItem = document.getElementById("deleteItem");
       let container = document.getElementById("container");
       /* let input = document.getElementById("input");
@@ -29,45 +32,63 @@
       let divHeading = localStorage.getItem("divHeading");
         let divID = localStorage.getItem("divID");
         let divContent = localStorage.getItem("divContent");
+        tst= JSON.parse(divContent);
+        showToDoList();
 
 
 
       btnPlusItme.addEventListener("click", async function() {
 
         let todo = {
-          text: input.value,
+          text: inp.value,
           id: Date.now(),
         };
-        let tst2 = data[0].items;
-          let tst = JSON.parse(tst2);
+        //let tst2 = data[0].items;
+         // let tst = JSON.parse(tst2);
           tst.push(todo);
-          
+          showToDoList();
 
 
       });
+
       function showToDoList() {
+        container.innerHTML= "";
 
       let token = localStorage.getItem("token");
-      
-     
+      tittel.innerHTML = divHeading;
+      // divItems = JSON.parse(divContent);
+     // let tst2 = divContent[0].items;
+        //  let tst = JSON.parse(tst2);
+        //  console.log(divContent);
+        
+        //7  console.log(tst);
+         // let tst2 = tst[i].text;
+          //console.log(tst2);
 
-        for(let i=0; i < divContent.length; i++){
+        for(let i=0; i< tst.length ;i++){
+         // div.innerHTML = "";
+          let lol = tst[i].text;
           let div= document.createElement("div");
           //let item= document.createElement("text");
-          div.innerHTML= divContent[i];
-          div.id= i;
-
-          container.appendChild(div);
+          div.innerHTML= lol;
+          console.log(lol);
+         div.id= i;
+          //console.log(value)
+         
+          
 
           let delBtn= document.createElement("button");
           delBtn.innerHTML ="delete item";
-           
+          div.appendChild(delBtn);
+          container.appendChild(div);
+
            delBtn.addEventListener("click", function (evt) {
             
-            divContent.splice(div.id,1);
+            tst.splice(div,1);
             showToDoList();
-            });
-            container.appendChild(delBtn);
+           
+          });
+            
 
         }
       }
@@ -114,8 +135,7 @@
           console.log(data);
           
          //let div = document.createElement("div");
-          tittel.innerHTML = divHeading;
-        //  divItems = JSON.parse(divContent);
+         
 
          for (let i=0; i< tst.length; i++ ) {
 
@@ -157,24 +177,24 @@
       }*/
 
    
-     saveBtn.addEventListener("click", async function updateToDoList (evt) {
+     saveBtn.addEventListener("click", async function (evt) {
 
     
-        let url = "/showToDoList/update";
+        let url = "/showToDoList";
 
         let divHeading = localStorage.getItem("divHeading");
         let token = localStorage.getItem("token");
 
         
          let updata = {
-             heading: divHeading,
-             body: JSON.stringify(divContent)
+             heading: divID,
+             body: JSON.stringify(tst)
          }
         
     
 
         let cfg = {
-          method: "UPDATE",
+          method: "PUT",
           headers: {
             "content-type": "application/json",
             "authorization": token
@@ -195,7 +215,7 @@
      })
 
 
-     showToDoList();
+    
     </script>
 
     <!---------------- CSS ------------------->
