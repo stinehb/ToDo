@@ -1,212 +1,214 @@
 <!DOCTYPE html>
 <html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>TestClient</title>
-  </head>
-  <body>
-    <!----------- HTML-elements -------------->
-    <br />
-    <button id="btnCreate">Make new to do list!</button>
-    <div id="container"></div>
 
-    <button id="btnChangePw">Change Password</button>
-    <a href="index.html">Return to Login!</a>
-    <button id="sharedLists">Show me all shared lists</button>
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>TestClient</title>
+</head>
 
-    <!------------- JavaScript --------------->
-    <script>
-      let btn = document.getElementById("btnCreate");
-      let btnChangePw = document.getElementById("btnChangePw");
-      let container = document.getElementById("container");
-      let sharedBtn = document.getElementById("sharedLists");
+<body>
+  <!----------- HTML-elements -------------->
+  <br />
+  <button id="btnCreate">Make new to do list!</button>
+  <div id="container"></div>
 
-      //-----------------------------------------------
+  <button id="btnChangePw">Change Password</button>
+  <a href="index.html">Return to Login!</a>
+  <button id="sharedLists">Show me all shared lists</button>
 
-      btn.addEventListener("click", async function (evt) {
-        let url = "/createNewList";
-        let token = localStorage.getItem("token");
-        window.location.href = "createToDoList.html";
-      });
+  <!------------- JavaScript --------------->
+  <script>
+    let btn = document.getElementById("btnCreate");
+    let btnChangePw = document.getElementById("btnChangePw");
+    let container = document.getElementById("container");
+    let sharedBtn = document.getElementById("sharedLists");
 
-      btnChangePw.addEventListener("click", async function (evt) {
-        let url = "/users/updatePassword";
-        let token = localStorage.getItem("token");
-        window.location.href = "updatePassword.html";
-      });
+    //-----------------------------------------------
 
-      async function showAllLists() {
-        let url = "/showAllLists";
-        let token = localStorage.getItem("token");
+    btn.addEventListener("click", async function (evt) {
+      let url = "/createNewList";
+      let token = localStorage.getItem("token");
+      window.location.href = "createToDoList.html";
+    });
 
-        let cfg = {
-          method: "GET",
-          headers: {
-            "content-type": "application/json",
-            authorization: token,
-          },
-        };
+    btnChangePw.addEventListener("click", async function (evt) {
+      let url = "/users/updatePassword";
+      let token = localStorage.getItem("token");
+      window.location.href = "updatePassword.html";
+    });
 
-        try {
-          let response = await fetch(url, cfg);
-          let data = await response.json();
+    async function showAllLists() {
+      let url = "/showAllLists";
+      let token = localStorage.getItem("token");
 
-          if (response.status != 200) {
-            throw data.error;
-          }
+      let cfg = {
+        method: "GET",
+        headers: {
+          "content-type": "application/json",
+          authorization: token,
+        },
+      };
 
-          container.innerHTML = ""; //delete previous content
+      try {
+        let response = await fetch(url, cfg);
+        let data = await response.json();
 
-          for (let value of data) {
-            let date = new Date(value.date);
-            console.log(value);
-            let html = "<h2>" + value.heading + "</h2>";
-            html += "<p>" + date.toLocaleDateString() + "</p>";
-            //html += "<p>" + value.item + "</p><hr>";
-
-            let div = document.createElement("div");
-            div.innerHTML = html;
-            //console.log(value.updata.content);
-
-            div.addEventListener("click", function (evt) {
-              let url = "/showToDoList";
-              let divContent = localStorage.setItem("divContent", value.items);
-              let divHeading = localStorage.setItem(
-                "divHeading",
-                value.heading
-              );
-              let divID = localStorage.setItem("divID", value.id);
-              window.location.href = "showToDoList.html";
-            });
-
-            container.appendChild(div);
-
-            let delbtn = document.createElement("button");
-            delbtn.innerHTML = "Delete";
-            container.appendChild(delbtn);
-
-            // let delbtn = document.createElement("button");
-            //   delbtn.innerHTML = "Delete";
-
-            delbtn.addEventListener("click", function (evt) {
-              deleteLists(value.id);
-            });
-
-            let shareBtn = document.createElement("button");
-            shareBtn.innerHTML = "share your list with someone!";
-            container.appendChild(shareBtn);
-
-            shareBtn.addEventListener("click", function (evt) {
-              let usernameInp = document.createElement("input");
-              usernameInp.type = "text";
-              usernameInp.placeholder =
-                "skriv inn brukernavn til en som du vil dele listen med";
-                container.appendChild(usernameInp);
-              let bekreftBtn = document.createElement("button");
-              bekreftBtn.innerHTML = "share your list with this user";
-              container.appendChild(bekreftBtn);
-              bekreftBtn.addEventListener("click", async function (evt) {
-                
-                let url= "/getUserId";
-                let updata={
-                  "username" : usernameInp.value
-                };
-
-                let cfg = {
-                  method: "GET",
-                  headers: { "content-type": "application/json"},
-                  body: updata };
-                  
-                  try{
-                    let response = await fetch(url, cfg);
-          let data = await response.json();
-
-          if (response.status != 200) {
-            throw data.error;
-          }
-          console.log(data);
-        
-        } catch (error) {
-          console.log(error);
+        if (response.status != 200) {
+          throw data.error;
         }
-           });
-           
+
+        container.innerHTML = ""; //delete previous content
+
+        for (let value of data) {
+          let date = new Date(value.date);
+          console.log(value);
+          let html = "<h2>" + value.heading + "</h2>";
+          html += "<p>" + date.toLocaleDateString() + "</p>";
+          //html += "<p>" + value.item + "</p><hr>";
+
+          let div = document.createElement("div");
+          div.innerHTML = html;
+          //console.log(value.updata.content);
+
+          div.addEventListener("click", function (evt) {
+            let url = "/showToDoList";
+            let divContent = localStorage.setItem("divContent", value.items);
+            let divHeading = localStorage.setItem(
+              "divHeading",
+              value.heading
+            );
+            let divID = localStorage.setItem("divID", value.id);
+            window.location.href = "showToDoList.html";
           });
-          }
 
-        } catch (error) {
-          console.log(error);
+          container.appendChild(div);
+
+          let delbtn = document.createElement("button");
+          delbtn.innerHTML = "Delete";
+          container.appendChild(delbtn);
+
+          // let delbtn = document.createElement("button");
+          //   delbtn.innerHTML = "Delete";
+
+          delbtn.addEventListener("click", function (evt) {
+            deleteLists(value.id);
+          });
+
+          let shareBtn = document.createElement("button");
+          shareBtn.innerHTML = "share your list with someone!";
+
+          shareBtn.addEventListener("click", function (evt) {
+            let usernameInp = document.createElement("input");
+            usernameInp.type = "text";
+            usernameInp.placeholder =
+              "skriv inn brukernavn til en som du vil dele listen med";
+            let bekreftBtn = document.createElement("button");
+            bekreftBtn.innerHTML = "share your list with this user";
+            bekreftBtn.addEventListener("click", async function (evt) {
+              let url = "/getUserId";
+              let updata = {
+                "username": usernameInp.value
+              };
+
+              let cfg = {
+                method: "GET",
+                headers: { "content-type": "application/json" },
+                body: updata
+              };
+
+              try {
+                let response = await fetch(url, cfg);
+                let data = await response.json();
+
+                if (response.status != 200) {
+                  throw data.error;
+                }
+                console.log(data);
+
+              } catch (error) {
+                console.log(error);
+              }
+            });
+
+          });
         }
+
+      } catch (error) {
+        console.log(error);
       }
+    }
 
-      //-----------------------------------------------
-      async function deleteLists(todoID) {
-        let url = "/showAllLists";
-        let token = localStorage.getItem("token");
+    //-----------------------------------------------
+    async function deleteLists(todoID) {
+      let url = "/showAllLists";
+      let token = localStorage.getItem("token");
 
-        //let url = "/showAllLists?listeid=" + variabel;
+      //let url = "/showAllLists?listeid=" + variabel;
 
-        let updata = {
-          id: todoID,
-        };
+      let updata = {
+        id: todoID,
+      };
 
-        let cfg = {
-          method: "DELETE",
-          headers: { "content-type": "application/json", "authorization": token },
-          body: JSON.stringify(updata),
-        };
+      let cfg = {
+        method: "DELETE",
+        headers: { "content-type": "application/json", "authorization": token },
+        body: JSON.stringify(updata),
+      };
 
-        try {
-          let response = await fetch(url, cfg);
-          let data = await response.json();
+      try {
+        let response = await fetch(url, cfg);
+        let data = await response.json();
 
-          if (response.status != 200) {
-            throw data.error;
-          }
-         // showAllLists();
-
-          showAllLists(); //refresh the list
-        } catch (error) {
-          console.log(error);
+        if (response.status != 200) {
+          throw data.error;
         }
+        // showAllLists();
+
+        showAllLists(); //refresh the list
+      } catch (error) {
+        console.log(error);
+      }
+    }
+
+    // start ----------------------------------------
+    showAllLists();
+
+    sharedBtn.addEventListener("click", function (evt) {
+      window.location.href = "showSharedLists.html";
+    });
+
+    function shareYourList(username, id) {
+      let url = "/getUserId";
+
+      let updata = {
+        "username": username,
+        "id": id
       }
 
-      // start ----------------------------------------
-      showAllLists();
+      let cfg = {}
+    }
+  </script>
 
-      sharedBtn.addEventListener("click", function (evt) {
-        window.location.href = "showSharedLists.html";
-      });
+  <!---------------- CSS ------------------->
+  <style>
+    * {
+      text-align: center;
+      margin: 0;
+      font-family: sans-serif;
+      background-color: rgb(163, 155, 144);
+      color: rgb(9, 15, 12);
+    }
 
-      function shareYourList(username, id) {
-        let url= "/getUserId";
+    button {
+      background-color: rgb(126, 121, 121);
+    }
 
-        let updata= {
-          "username": username,
-          "id": id
-        }
+    div:hover {
+      background-color: paleturquoise;
+      cursor: pointer;
+    }
+  </style>
+</body>
 
-        let cfg = {}
-      }
-    </script>
-
-    <!---------------- CSS ------------------->
-    <style>
-      * {
-        text-align: center;
-        margin: 0;
-        font-family: sans-serif;
-        background-color: rgb(163, 155, 144);
-        color: rgb(9, 15, 12);
-      }
-      button {
-        background-color: rgb(126, 121, 121);
-      }
-      div:hover {
-        background-color: paleturquoise;
-        cursor: pointer;
-      }
-    </style>
-  </body>
 </html>
