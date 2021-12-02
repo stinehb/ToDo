@@ -99,7 +99,6 @@ router.delete("/showAllLists", protect, async function (req, res, next) {
 
 router.get("/getUserId",protect, async function (req, res, next) {
 	let updata = req.query.username;
-	// let userid = res.locals.userid;
 	
 	try {
 	  let data = await db.getUserId(updata);
@@ -115,7 +114,7 @@ router.get("/getUserId",protect, async function (req, res, next) {
 	}
   });
 
-  router.put("/showSharedLists", protect, async function (req, res, next) {
+ /*  router.put("/showSharedLists", protect, async function (req, res, next) {
 	
 	let updata = req.body;
   
@@ -131,6 +130,6 @@ router.get("/getUserId",protect, async function (req, res, next) {
 	} catch (err) {
 	  next(err);
 	}
-  });
+  }); */
 
 module.exports = router;
