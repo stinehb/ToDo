@@ -21,7 +21,6 @@ router.post("/users/login", async function (req, res, next) {
       let userid = data.rows[0].id;
       let username = data.rows[0].username;
       let password = data.rows[0].password;
-      let passwordHash = data.rows[0].hash;
       let salt = data.rows[0].salt;
 
       let isPasswordAccurate = authUtils.verifyPassword(
@@ -52,7 +51,6 @@ router.post("/users/login", async function (req, res, next) {
   }
 });
 
-
   router.put("/users/updatePassword", async function (req, res, next) {
     let credString = req.headers.authorization;
     let cred = authUtils.decodeCred(credString);
@@ -78,19 +76,6 @@ router.post("/users/login", async function (req, res, next) {
       next(err);
     }
   });
-
-// list all users -------------------------------
-/*router.get("/users", async function(req, res, next){
-   // res.status(200).send("Hello from GET - /users").end();
-
-   try {
-       let data = await db.getAllUsers();
-       res.status(200).json(data.rows).end();
-   }
-   catch(err){
-       next(err);
-   }
-});*/
 
 // create a new user -------------------------------
 router.post("/users", async function (req, res, next) {
@@ -133,7 +118,6 @@ router.delete("/users/delete", async function (req, res, next) {
       let userid = data.rows[0].id;
       let username = data.rows[0].username;
       let password = data.rows[0].password;
-      let passwordHash = data.rows[0].hash;
       let salt = data.rows[0].salt;
 
       let isPasswordAccurate = authUtils.verifyPassword(

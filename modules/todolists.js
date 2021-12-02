@@ -114,22 +114,4 @@ router.get("/getUserId",protect, async function (req, res, next) {
 	}
   });
 
- /*  router.put("/showSharedLists", protect, async function (req, res, next) {
-	
-	let updata = req.body;
-  
-	try {
-	  let data = await db.shareToDoList(updata.userid,updata.id); 
-  
-	  if (data.rows.length > 0) {
-		res
-		  .status(200)
-		  .json({ msg: "You have successfully added item to to do list." })
-		  .end();
-	  }
-	} catch (err) {
-	  next(err);
-	}
-  }); */
-
 module.exports = router;
