@@ -21,11 +21,19 @@ dbMethods.showToDoList= function (id) {
     let values = [id];
     return pool.query(sql, values);
 }
-// ------------------------------------
-dbMethods.createToDoList = function(heading, items, userid) { 
+
+dbMethods.showSharedLists = function (public) {
+    let sql = "SELECT * FROM todolist WHERE public = $1";
+    let values = [public];
+    return pool.query(sql, values);
+}
+
+
+dbMethods.createToDoList = function(heading, items, userid, public) { 
     
-    let sql = "INSERT INTO todolist (id, date, heading, items, userid) VALUES(DEFAULT, DEFAULT, $1, $2, $3) returning *";
-	let values = [heading, items, userid];	
+    let sql = "INSERT INTO todolist (id, date, heading, items, userid, public) VALUES(DEFAULT, DEFAULT, $1, $2, $3, $4) returning *";
+	let values = [heading, items, userid, public];
+    console.log(values);	
     return pool.query(sql, values); //return the promise
 }
 

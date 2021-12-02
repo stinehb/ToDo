@@ -10,80 +10,99 @@
 
 <body>
   <!----------- HTML-elements -------------->
-    <h1>Create a New To Do List</h1>
+  <h1>Create a New To Do List</h1>
 
-    <div id="container"></div>
-    <input id="listTitle" placeholder="List Title" /> 
-    <button id="sendToServer">Create the List</button>
-    <br />
-    <input id="input" placeholder="Add text" />
-    <button id="newCheckbox">Add New</button> <br /><br>
+  <div id="container"></div>
+  <input id="listTitle" placeholder="List Title" />
+  <button id="sendToServer">Create the List</button>
+  <br />
+  <input id="input" placeholder="Add text" />
+  <button id="newCheckbox">Add New</button> <br /><br>
 
-    <button id="btnShowAllLists">Show All Lists</button>
+  <label for="remember">Check the box if you want the list to be public to all users</label>
+  <input id="checkboxShare" name="checkboxShare" type="checkbox" />
 
-    <!------------- JavaScript --------------->
-    <script>
-      let listTitle = document.getElementById("listTitle");
-      let input = document.getElementById("input");
-      let newCheckboxBtn = document.getElementById("newCheckbox");
-      let sendToServer = document.getElementById("sendToServer");
-      let deleteItem = document.getElementById("deleteItem");
-      let container = document.getElementById("container");
-      let btnShowAllLists = document.getElementById("btnShowAllLists");
-      let items = [];
+  <button id="btnShowAllLists">Show All Lists</button>
 
-      newCheckboxBtn.addEventListener("click", async function (evt) {
-        let listItem = document.createElement("h2");
-        listItem.innerHTML = input.value;
-        container.appendChild(listItem);
+  <!------------- JavaScript --------------->
+  <script>
+    let listTitle = document.getElementById("listTitle");
+    let input = document.getElementById("input");
+    let newCheckboxBtn = document.getElementById("newCheckbox");
+    let sendToServer = document.getElementById("sendToServer");
+    let deleteItem = document.getElementById("deleteItem");
+    let container = document.getElementById("container");
+    let btnShowAllLists = document.getElementById("btnShowAllLists");
+    let checkboxShare = document.getElementById("checkboxShare");
+    let items = [];
+    // checkboxShare = 0;
 
-        let todo = {
-          text: input.value,
-          id: Date.now(),
-        };
+    function privateOrPublic() {
+      if (checkboxShare.checked) {
+        checkboxShare = 1;
+        console.log(checkboxShare);
+      } else {
+        checkboxShare = 0;
+        console.log(checkboxShare);
+      }
+    }
 
-        if (input.value.length > 0) {
-          items.push(todo);
+
+    newCheckboxBtn.addEventListener("click", async function (evt) {
+      let listItem = document.createElement("h2");
+      listItem.innerHTML = input.value;
+      container.appendChild(listItem);
+
+      let todo = {
+        text: input.value,
+        id: Date.now(),
+      };
+
+      if (input.value.length > 0) {
+        items.push(todo);
+      }
+      input.value = "";
+    });
+
+    sendToServer.addEventListener("click", async function (evt) {
+
+      privateOrPublic() // check if checkbox is checked
+      let url = "/createNewList";
+      let token = localStorage.getItem("token");
+
+      let updata = {
+        // heading: inpHeading.value,
+        heading: listTitle.value,
+        content: JSON.stringify(items),
+        public: checkboxShare
+      };
+
+      let cfg = {
+        method: "POST",
+        headers: {
+          "content-type": "application/json",
+          "authorization": token
+        },
+        body: JSON.stringify(updata)
+      };
+
+      try {
+        let response = await fetch(url, cfg);
+        let data = await response.json();
+
+        if (response.status != 200) {
+          throw data.error;
         }
-        input.value = "";
-      });
+      } catch (error) {
+        console.log(error);
+      }
+    });
 
-      sendToServer.addEventListener("click", async function (evt) {
-        let url = "/createNewList";
-        let token = localStorage.getItem("token");
-
-        let updata = {
-          // heading: inpHeading.value,
-          heading: listTitle.value,
-          content: JSON.stringify(items),
-        };
-
-        let cfg = {
-          method: "POST",
-          headers: {
-            "content-type": "application/json",
-            "authorization": token
-          },
-          body: JSON.stringify(updata)
-        };
-
-        try {
-          let response = await fetch(url, cfg);
-          let data = await response.json();
-
-          if (response.status != 200) {
-            throw data.error;
-          }
-        } catch (error) {
-          console.log(error);
-        }
-      });
-
-      btnShowAllLists.addEventListener("click", function (evt) {
-        // localStorage.setItem("token", data.token);
-        location.href = "showAllLists.html";
-      });
-    </script>
+    btnShowAllLists.addEventListener("click", function (evt) {
+      // localStorage.setItem("token", data.token);
+      location.href = "showAllLists.html";
+    });
+  </script>
 
 </body>
 

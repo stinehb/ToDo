@@ -1,76 +1,98 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
-    <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>shared lists</title>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Public Lists</title>
+  <link rel="stylesheet" href="styles.css">
 </head>
+
 <body>
-    <script>
-      
-      async function showSharedLists() {
-        let url = "/showSharedLists";
-        let token = localStorage.getItem("token");
+  <!----------- HTML-elements -------------->
 
-        let cfg = {
-          method: "GET",
-          headers: {
-            "content-type": "application/json",
-            "authorization": token,
-          }
-        };
+  <h1>All Public Lists</h1>
 
-        try {
-          let response = await fetch(url, cfg);
-          let data = await response.json();
+  <div id="listContainer"></div>
 
-          if (response.status != 200) {
-            throw data.error;
-          }
+  <button id="myLists" class="button">Show all shared lists</button><br><br>
+  <button id="btnLogOut" class="button">Log Out</button>
 
-          container.innerHTML = ""; //delete previous content
+  <!------------- JavaScript --------------->
+  <script>
 
-          for (let value of data) {
-            let date = new Date(value.date);
-            let html = "<h2>" + value.heading + "</h2>";
-            html += "<p>" + date.toLocaleDateString() + "</p>";
+    let listContainer = document.getElementById("listContainer");
+    let myLists = document.getElementById("myLists");
+    let btnLogOut = document.getElementById("btnLogOut");
 
-            let div = document.createElement("div");
-            div.innerHTML = html;
 
-         /*   div.addEventListener("click", function (evt) {
-              let url = "/showToDoList";
-              let divContent = localStorage.setItem(
-                "divContent",
-                value.items
-              );
-              let divHeading = localStorage.setItem(
-                "divHeading",
-                value.heading
-              );
-              let divID = localStorage.setItem("divID", value.id);
-              window.location.href = "showToDoList.html";
-            });*/
 
-            container.appendChild(div);
+    async function showSharedLists() {
+      let url = "/showSharedLists";
+      let token = localStorage.getItem("token");
 
-           /* let delbtn = document.createElement("button");
-            delbtn.innerHTML = "Delete";
-           container.appendChild(delbtn);
-
-            
-
-                    delbtn.addEventListener('click', function(evt) {
-                        deleteLists(value.id);
-                    });
-*/
-          }
-        } catch (error) {
-          console.log(error);
+      let cfg = {
+        method: "GET",
+        headers: {
+          "content-type": "application/json",
+          "authorization": token,
         }
-      }
+      };
 
-    </script>
+      try {
+        let response = await fetch(url, cfg);
+        let data = await response.json();
+
+        if (response.status != 200) {
+          throw data.error;
+        }
+
+        listContainer.innerHTML = ""; //delete previous content
+
+        for (let value of data) {
+          let date = new Date(value.date);
+          let html = "<h2>" + value.heading + "</h2>";
+          html += "<p>" + date.toLocaleDateString() + "</p>";
+
+          let div = document.createElement("div");
+          div.className = "listContainer";
+          div.innerHTML = html;
+          listContainer.appendChild(div);
+
+          let showBtn = document.createElement("button");
+          showBtn.className = "button";
+          showBtn.innerHTML = "Show List";
+          div.appendChild(showBtn);
+
+          showBtn.addEventListener("click", function (evt) {
+            let url = "/showSharedToDoList";
+            let divContent = localStorage.setItem("divContent", value.items);
+            let divHeading = localStorage.setItem(
+              "divHeading",
+              value.heading
+            );
+            let divID = localStorage.setItem("divID", value.id);
+            window.location.href = "showSharedToDoList.html";
+          });
+        }
+      } catch (error) {
+        console.log(error);
+      }
+    }
+
+    showSharedLists();
+
+    myLists.addEventListener("click", function (evt) {
+      window.location.href = "showAllLists.html";
+    });
+
+    btnLogOut.addEventListener("click", function (evt) {
+      localStorage.setItem("token", "");
+      location.href = "index.html";
+    });
+
+  </script>
 </body>
+
 </html>

@@ -11,7 +11,7 @@ router.post("/createNewList", protect, async function (req, res, next) {
   let userid = res.locals.userid;
 
   try {
-    let data = await db.createToDoList(updata.heading, updata.content, userid);
+    let data = await db.createToDoList(updata.heading, updata.content, userid, updata.public);
 
     if (data.rows.length > 0) {
       res
@@ -52,6 +52,28 @@ router.get("/showAllLists", protect, async function (req, res, next) {
 
   try {
     let data = await db.getAllToDoLists(userid);
+    res.status(200).json(data.rows).end();
+  } catch (err) {
+    next(err);
+  }
+});
+
+router.get("/showSharedLists", async function (req, res, next) {
+
+  try {
+    let data = await db.showSharedLists(1);
+    res.status(200).json(data.rows).end();
+  } catch (err) {
+    next(err);
+  }
+});
+
+router.get("/showSharedToDoList", async function (req, res, next) {
+  let listID = req.query.id;
+  console.log(listID);
+
+  try {
+    let data = await db.showToDoList(listID);
     res.status(200).json(data.rows).end();
   } catch (err) {
     next(err);

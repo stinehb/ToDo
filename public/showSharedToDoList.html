@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Show Specific To Do List</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+
+<body>
+    <!----------- HTML-elements -------------->
+
+    <h1 id="title"></h1><br>
+    <div id="container" class="listContainer"></div>
+    <br>
+
+    <button id="btnShowAllLists">Show All Lists</button>
+
+    <!------------- JavaScript --------------->
+    <script>
+
+        let container = document.getElementById("container");
+        let title = document.getElementById("title");
+        let btnShowAllLists = document.getElementById("btnShowAllLists");
+
+        let divHeading = localStorage.getItem("divHeading");
+        let divID = localStorage.getItem("divID");
+        let divContent = localStorage.getItem("divContent");
+        let data = JSON.parse(divContent);
+
+        function showToDoList() {
+            container.innerHTML = "";
+
+            let token = localStorage.getItem("token");
+            title.innerHTML = divHeading;
+
+            for (let i = 0; i < data.length; i++) {
+
+                let lol = data[i].text;
+                let div = document.createElement("div");
+
+                div.innerHTML = lol;
+                container.appendChild(div);
+
+            }
+        }
+
+        btnShowAllLists.addEventListener("click", async function (evt) {
+            location.href = "showAllLists.html";
+        });
+
+        showToDoList();
+
+    </script>
+</body>
+
+</html>
