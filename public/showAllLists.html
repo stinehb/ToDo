@@ -4,32 +4,39 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>TestClient</title>
+  <title>View All To Do Lists</title>
+  <link rel="stylesheet" href="styles.css">
 </head>
 
 <body>
   <!----------- HTML-elements -------------->
-  
-  <br />
-  <button id="btnCreate">Make new to do list!</button>
-  <div id="container"></div>
 
-  <button id="btnChangePw">Change Password</button>
-  
-  <button id="sharedLists">Show me all shared lists</button><br><br>
-  <a href="index.html">Return to Login!</a>
-  <div style="height: 100vh;"></div>
+  <h1>To Do Lists</h1>
+  <button id="btnCreate" class="button">New List</button>
+  <!-- <div id="frameContainer" class="frameContainer"></div> -->
+  <!-- <button id="btnShowList">Show List</button> -->
+  <div id="listContainer"></div>
+
+  <button id="btnChangePw" class="button">Change Password</button>
+  <button id="sharedLists" class="button">Show all shared lists</button><br><br>
+  <button id="btnLogOut" class="button">Log Out</button>
 
   <!------------- JavaScript --------------->
   <script>
-    let btn = document.getElementById("btnCreate");
+    let frameContainer = document.getElementById("frameContainer");
+    let listContainer = document.getElementById("listContainer");
+
+    let btnCreate = document.getElementById("btnCreate");
     let btnChangePw = document.getElementById("btnChangePw");
-    let container = document.getElementById("container");
-    let sharedBtn = document.getElementById("sharedLists");
+    let btnShared = document.getElementById("sharedLists");
+    let btnShowList = document.getElementById("btnShowList");
+    let btnLogOut = document.getElementById("btnLogOut");
+
+    const NEWLine = "<br>";
 
     //-----------------------------------------------
 
-    btn.addEventListener("click", async function (evt) {
+    btnCreate.addEventListener("click", async function (evt) {
       let url = "/createNewList";
       let token = localStorage.getItem("token");
       window.location.href = "createToDoList.html";
@@ -61,20 +68,47 @@
           throw data.error;
         }
 
-        container.innerHTML = ""; //delete previous content
+        listContainer.innerHTML = "";
 
+        if(data.length < 1) {
+          let div = document.createElement("div");
+          div.innerHTML = "No lists available, press the New List button above to get started.";
+          listContainer.appendChild(div);
+        }
         for (let value of data) {
           let date = new Date(value.date);
-          console.log(value);
-          let html = "<h2>" + value.heading + "</h2>";
-          html += "<p>" + date.toLocaleDateString() + "</p>";
-          //html += "<p>" + value.item + "</p><hr>";
+          let html = "<p>" + date.toLocaleDateString() + "</p>";
+          html += "<h2>" + value.heading + "</h2>";
 
           let div = document.createElement("div");
+          div.className = "listContainer";
           div.innerHTML = html;
-          //console.log(value.updata.content);
+          listContainer.appendChild(div);
 
-          div.addEventListener("click", function (evt) {
+          let showBtn = document.createElement("button");
+          showBtn.className = "button";
+          showBtn.innerHTML = "Show List";
+          div.appendChild(showBtn);
+
+          let delBtn = document.createElement("button");
+          delBtn.className = "button";
+          delBtn.innerHTML = "Delete List";
+          div.appendChild(delBtn);
+
+          let usernameInput = document.createElement("input");
+          usernameInput.placeholder = "Enter a username";
+          div.appendChild(usernameInput);
+
+          let shareBtn = document.createElement("button");
+          shareBtn.className = "button";
+          shareBtn.innerHTML = "Share";
+          div.appendChild(shareBtn);
+
+          delBtn.addEventListener("click", function (evt) {
+            deleteLists(value.id);
+          });
+
+          showBtn.addEventListener("click", function (evt) {
             let url = "/showToDoList";
             let divContent = localStorage.setItem("divContent", value.items);
             let divHeading = localStorage.setItem(
@@ -84,69 +118,58 @@
             let divID = localStorage.setItem("divID", value.id);
             window.location.href = "showToDoList.html";
           });
-
-          container.appendChild(div);
-
-          let delbtn = document.createElement("button");
-          delbtn.innerHTML = "Delete";
-          container.appendChild(delbtn);
-
-          // let delbtn = document.createElement("button");
-          //   delbtn.innerHTML = "Delete";
-
-          delbtn.addEventListener("click", function (evt) {
-            deleteLists(value.id);
-          });
-
-          let shareBtn = document.createElement("button");
-          shareBtn.innerHTML = "share your list with someone!";
-          container.appendChild(shareBtn);
-
-          shareBtn.addEventListener("click", function (evt) {
-            let usernameInp = document.createElement("input");
-            usernameInp.type = "text";
-            usernameInp.placeholder =
-              "skriv inn brukernavn til en som du vil dele listen med";
-              container.appendChild(usernameInp);
-
-            let bekreftBtn = document.createElement("button");
-            bekreftBtn.innerHTML = "share your list with this user";
-            container.appendChild(bekreftBtn);
-
-            bekreftBtn.addEventListener("click", async function (evt) {
-              //let username = usernameInp.value;
-
-              let url = "/getUserId?username=" + usernameInp.value;
-              
-
-              let cfg = {
-                method: "GET",
-                headers: { "content-type": "application/json",
-              "authorization": token }
-               
-              };
-
-              try {
-                let response = await fetch(url, cfg);
-                let data = await response.json();
-
-                if (response.status != 200) {
-                  throw data.error;
-                }
-                shareYourList(data, value.id);
-
-              } catch (error) {
-                console.log(error);
-              }
-            });
-
-          });
         }
-
       } catch (error) {
         console.log(error);
       }
     }
+
+
+    /* shareBtn.addEventListener("click", function (evt) {
+      let usernameInp = document.createElement("input");
+      usernameInp.type = "text";
+      usernameInp.placeholder =
+        "skriv inn brukernavn til en som du vil dele listen med";
+        frameContainer.appendChild(usernameInp);
+
+      let bekreftBtn = document.createElement("button");
+      bekreftBtn.innerHTML = "share your list with this user";
+      frameContainer.appendChild(bekreftBtn);
+
+      bekreftBtn.addEventListener("click", async function (evt) {
+      
+        let url = "/getUserId?username=" + usernameInp.value;
+
+        let cfg = {
+          method: "GET",
+          headers: {
+            "content-type": "application/json",
+            "authorization": token
+          }
+
+        };
+
+        try {
+          let response = await fetch(url, cfg);
+          let data = await response.json();
+
+          if (response.status != 200) {
+            throw data.error;
+          }
+          shareYourList(data, value.id);
+
+        } catch (error) {
+          console.log(error);
+        }
+      });
+
+    });
+  }
+
+} catch (error) {
+  console.log(error);
+}
+} */
 
     //-----------------------------------------------
     async function deleteLists(todoID) {
@@ -172,7 +195,6 @@
         if (response.status != 200) {
           throw data.error;
         }
-        // showAllLists();
 
         showAllLists(); //refresh the list
       } catch (error) {
@@ -183,7 +205,7 @@
     // start ----------------------------------------
     showAllLists();
 
-    sharedBtn.addEventListener("click", function (evt) {
+    btnShared.addEventListener("click", function (evt) {
       window.location.href = "showSharedLists.html";
     });
 
@@ -191,8 +213,8 @@
 
     async function shareYourList(userid, id) {
       let url = "/showSharedLists";
-      let token=localStorage.getItem("token");
-      
+      let token = localStorage.getItem("token");
+
       let updata = {
         "userid": userid,
         "id": id
@@ -203,62 +225,25 @@
         headers: { "content-type": "application/json", "authorization": token },
         body: JSON.stringify(updata),
       };
-      try{
+      try {
         let response = await fetch(url, cfg);
         let data = await response.json();
 
         if (response.status != 200) {
           throw data.error;
         }
-       
+
       } catch (error) {
         console.log(error);
       }
-      }
-    
+    }
+
+    btnLogOut.addEventListener("click", function (evt) {
+      localStorage.setItem("token", "");
+      location.href = "index.html";
+    });
+
   </script>
-
-  <!---------------- CSS ------------------->
-  <style>
-    html {
-      background-image: linear-gradient(blue, gray);
-  }
-
-  body {
-      text-align: center;
-      font-family: sans-serif;
-      color: rgb(9, 15, 12);
-      border: solid 10px rgb(27, 18, 18);
-      align-items: center;
-
-  }
-input[type=text], input[type=text] {
-width: 50%;
-padding: 12px 20px;
-margin: 8px 0;
-border: none;
-box-sizing: border-box;
-}
-
-button {
-background-color: gray;
-color: rgb(5, 5, 5);
-padding: 14px 20px;
-margin: 8px 0;
-border: solid 2px rgb(3, 3, 3);
-width: 50%;
-}
-
-a:link {
-text-decoration: none;
-color: black;
-padding: 3px;
-border: solid 3px;
-border-radius: 0%;
-background-color: gray;
-
-}
-  </style>
 </body>
 
 </html>

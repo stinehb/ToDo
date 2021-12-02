@@ -1,77 +1,77 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>ToDoList</title>
+  <title>Show Specific To Do List</title>
+  <link rel="stylesheet" href="styles.css">
 </head>
+
 <body>
   <!----------- HTML-elements -------------->
 
-  <h1 id="titel">To Do List</h1><br>
-  <input type="text" id="inp"> <button id="itemplus">Legg til en item til denne to do list</button>
+  <h1 id="title"></h1><br>
+  <div id="container" class="listContainer"></div>
+  <input id="inp" type="text">
+  <button id="btnNewItem">Add an Item</button>
   <br>
-  |<div id="container"></div>
 
-  <button id="saveBtn">Save</button>
+
+  <button id="btnShowAllLists">Show All Lists</button>
 
   <!------------- JavaScript --------------->
   <script>
 
     let container = document.getElementById("container");
-    let tittel = document.getElementById("titel");
+    let title = document.getElementById("title");
     let inp = document.getElementById("inp");
-    let btnPlusItme = document.getElementById("itemplus");
-    let saveBtn = document.getElementById("saveBtn");
+    let btnNewItem = document.getElementById("btnNewItem");
+    let btnShowAllLists = document.getElementById("btnShowAllLists");
+
     let divHeading = localStorage.getItem("divHeading");
     let divID = localStorage.getItem("divID");
     let divContent = localStorage.getItem("divContent");
-    tst = JSON.parse(divContent);
-    showToDoList();
+    let data = JSON.parse(divContent);
 
-    btnPlusItme.addEventListener("click", async function () {
+    function showToDoList() {
+      container.innerHTML = "";
+      inp.value = "";
 
+      let token = localStorage.getItem("token");
+      title.innerHTML = divHeading;
+
+      for (let i = 0; i < data.length; i++) {
+
+        let lol = data[i].text;
+        let div = document.createElement("div");
+
+        div.innerHTML = lol;
+        div.id = i;
+
+        let delBtn = document.createElement("button");
+        delBtn.className = "button";
+        delBtn.innerHTML = "Delete";
+        container.appendChild(div);
+        div.appendChild(delBtn);
+
+        delBtn.addEventListener("click", function (evt) {
+
+          data.splice(div, 1);
+          div.removeChild(delBtn);
+          updataToDoList();
+
+        });
+      }
+    }
+
+    async function updataToDoList() {
       let todo = {
         text: inp.value,
         id: Date.now(),
       };
 
-      tst.push(todo);
-      showToDoList();
-    });
-
-    function showToDoList() {
-      container.innerHTML = "";
-
-      let token = localStorage.getItem("token");
-      tittel.innerHTML = divHeading;
-    
-      for (let i = 0; i < tst.length; i++) {
-
-        let lol = tst[i].text;
-        let div = document.createElement("div");
-
-        div.innerHTML = lol;
-        console.log(lol);
-        div.id = i;
-
-        let delBtn = document.createElement("button");
-        delBtn.innerHTML = "delete item";
-        div.appendChild(delBtn);
-        container.appendChild(div);
-
-        delBtn.addEventListener("click", function (evt) {
-
-          tst.splice(div, 1);
-          showToDoList();
-
-        });
-
-
-      }
-    }
-
-    saveBtn.addEventListener("click", async function (evt) {
+      data.push(todo);
 
       let url = "/showToDoList";
 
@@ -80,7 +80,7 @@
 
       let updata = {
         heading: divID,
-        body: JSON.stringify(tst)
+        body: JSON.stringify(data)
       }
 
       let cfg = {
@@ -102,11 +102,21 @@
       } catch (error) {
         console.log(error);
       }
-    })
+
+      showToDoList();
+    };
+
+    btnNewItem.addEventListener("click", async function () {
+      updataToDoList();
+    });
+
+    btnShowAllLists.addEventListener("click", async function (evt) {
+      location.href = "showAllLists.html";
+    });
+
+    showToDoList();
 
   </script>
-
-  <!---------------- CSS ------------------->
-
 </body>
+
 </html>

@@ -1,120 +1,84 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">    
-    <title>TestClient</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Log In Page</title>
+    <link rel="stylesheet" href="styles.css">
 </head>
+
 <body>
 
-    <!----------- HTML-elements -------------->   
-    <div style="height: 100vh;">
-    <h1>Login</h1><br>
-    <input id="inpUsername" type="text" placeholder="User name" />
-    <input id="inpPassword" type="text" placeholder="Password" /><br><br>
-    
-    <button id="btnLogin">Login</button> <br><br>
-    <h3 id="txtResult">Result...</h3> <br>
+    <!----------- HTML-elements -------------->
 
-    <a href="usercreate.html">Create a new user</a><br><br>
-    <a href= "deleteuser.html">Delete your user</a><br> <br>
-       </div>
+    <h1>Login</h1><br>
+    <input id="inpUsername" type="text" placeholder="Username" /><br>
+    <input id="inpPassword" type="text" placeholder="Password" /><br><br>
+
+    <button id="btnLogin" class="btnLogin">Login</button> <br>
+    <h3 id="txtResult"></h3>
+
+    <button id="btnUserCreate" class="button" onclick="createNewUser()">Create a New User</button>
+    <button id="btnUserDelete" class="button" onclick="deleteUser()">Delete a User</button>
     <!------------- JavaScript --------------->
     <script>
-        
+
         let inpUsername = document.getElementById('inpUsername');
         let inpPassword = document.getElementById('inpPassword');
         let btnLogin = document.getElementById('btnLogin');
         let txtResult = document.getElementById('txtResult');
 
         // --------------------------------------
-        btnLogin.addEventListener('click', async function(evt) {
-            
+        btnLogin.addEventListener('click', async function (evt) {
+
             let url = "/users/login";
             let credString = createCredentialString(inpUsername.value.toLowerCase(), inpPassword.value.toLowerCase());
 
             let cfg = {
                 method: "POST",
-                headers: {"authorization":credString}
-            }           
+                headers: { "authorization": credString }
+            }
 
-            try {                
-                let response = await fetch(url, cfg);               
+            try {
+                let response = await fetch(url, cfg);
                 let data = await response.json();
-                
+
                 if (response.status != 200) {
                     throw data.error;
                 }
-                
+
                 txtResult.innerHTML = data.msg;
                 localStorage.setItem("token", data.token);
                 window.location.href = "showAllLists.html";
-                
+
             }
-            catch(error) {
+            catch (error) {
                 console.log(error);
-                txtResult.innerHTML = "Something went wrong - check the console window";
-            }            
+                // txtResult.innerHTML = "Something went wrong - check the console window";
+                txtResult.innerHTML = error;
+            }
         });
-        
+
+
+        function createNewUser() {
+            let url = "/users/updatePassword";
+            window.location.href = "usercreate.html";
+        }
+
+        function deleteUser() {
+            let url = "/users/updatePassword";
+            window.location.href = "deleteuser.html";
+        }
+
         // --------------------------------------
         function createCredentialString(username, password) {
             let combinedStr = username + ":" + password;
             let b64Str = btoa(combinedStr);
             return "basic " + b64Str;
-          //  return combinedStr;
         }
-        
 
     </script>
-
-    <!---------------- CSS ------------------->
-    <style> 
-    html{
-        background-image:linear-gradient(blue, gray);
-    }
-    
-    body{
-            text-align: center; 
-            font-family: sans-serif;
-            color: rgb(9, 15, 12);
-            border:solid 10px rgb(27, 18, 18);
-            align-items: center;
-
-        }         
-
-input[type=text], input[type=password] {
-  width: 50%;
-  padding: 12px 20px;
-  margin: 8px 0;
-  border: none;
-  box-sizing: border-box;
-}
-
-button {
-  background-color: #04AA6D;
-  color: white;
-  padding: 14px 20px;
-  margin: 8px 0;
-  border: solid 2px rgb(3, 3, 3);
-  width: 50%;
-}
-
-a:link {
-    text-decoration: none;
-    color: black;
-    padding: 3px;
-    border: solid 3px;
-    border-radius: 0%;
-    background-color: gray;
-
-}
-
-
-
-
-    </style>
-
 </body>
 
 </html>

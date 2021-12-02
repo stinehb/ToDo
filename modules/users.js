@@ -150,7 +150,7 @@ router.delete("/users/delete", async function (req, res, next) {
         res
           .status(200)
           .json({
-            msg: "You have deleted user successfully!",
+            msg: "You have deleted the user successfully!",
             token: tok,
           })
           .end();

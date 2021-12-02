@@ -1,116 +1,79 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">    
-    <title>TestClient</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Create a New User</title>
+    <link rel="stylesheet" href="styles.css">
 </head>
+
 <body>
 
     <!----------- HTML-elements -------------->
-    
-    <h1>Create new user</h1> <br>
-    <input id="inpUsername" type="text" placeholder="User name" />
-    <input id="inpPassword" type="text" placeholder="Password" /><br></br>
 
-    <button id="btnCreate">Create User</button><br> <br>
-    <h3 id="txtResult">Result...</h3><br>
-    <a href="index.html">Return to login!</a> 
-    <div style="height: 100vh;"></div> 
-    
+    <h1>Create a New User</h1><br>
+    <input id="inpUsername" type="text" placeholder="User name" /><br>
+    <input id="inpPassword" type="text" placeholder="Password" /><br>
+    <input id="inpConfirmPassword" type="text" placeholder="Confirm Password" /><br><br>
+
+    <button id="btnCreateUser" class="btnCreateUser">Create User</button><br> <br>
+    <h3 id="txtResult"></h3>
+
+    <button id="btnReturnToLogin" class="button">Return To Login</button>
 
     <!------------- JavaScript --------------->
     <script>
 
-    let inpUsername = document.getElementById('inpUsername');
-    let inpPassword = document.getElementById('inpPassword');
-    let btnCreate = document.getElementById('btnCreate');
-    let txtResult = document.getElementById('txtResult');
+        let inpUsername = document.getElementById('inpUsername');
+        let inpPassword = document.getElementById('inpPassword');
+        let btnCreateUser = document.getElementById('btnCreateUser');
+        let txtResult = document.getElementById('txtResult');
 
-    btnCreate.addEventListener('click', async function(evt) {
+        btnCreateUser.addEventListener('click', async function (evt) {
+            if (inpPassword.value === inpConfirmPassword.value) {
+                let url = "/users";
+                let credString = createCredentialString(inpUsername.value.toLowerCase(), inpPassword.value.toLowerCase());
 
-        let url = "/users";
-        let credString = createCredentialString(inpUsername.value.toLowerCase(), inpPassword.value.toLowerCase());
-        
-        // let username, password = "";
-        //username= inpUsername.value;
-        //password=inpPassword.value;
+                let cfg = {
+                    method: "POST",
+                    headers: { "authorization": credString }
+                }
 
-        let cfg = {
-            method: "POST",
-            headers: {"authorization":credString}
-        }
+                try {
+                    let response = await fetch(url, cfg);
+                    let data = await response.json();
 
-        try {
-            let response = await fetch(url, cfg);
-            let data = await response.json();
+                    if (response.status != 200) {
+                        throw data.error;
+                    }
 
-            if (response.status != 200) {
-                throw data.error;
+                    txtResult.innerHTML = data.msg;
+                }
+                catch (error) {
+                    console.log(error);
+                    txtResult.innerHTML = error;
+                }
+            } else {
+                txtResult.innerHTML = "The passwords does not match";
+
             }
+        });
 
-            txtResult.innerHTML = data.msg;
-        }
-        catch(error) {
-            console.log(error);
-            txtResult.innerHTML = "Something went wrong - check the console window";
-        }
-    });
+        //----------------------------------------
+        function createCredentialString(username, password) {
+            let combinedStr = username + ":" + password;
+            let b64Str = btoa(combinedStr);
+            return "basic " + b64Str;
 
-    //----------------------------------------
-    function createCredentialString(username, password){
-        let combinedStr = username + ":" + password;
-        let b64Str = btoa(combinedStr);
-        return "basic " + b64Str;
-     
-    }
+        }
+
+        btnReturnToLogin.addEventListener("click", function (evt) {
+            localStorage.setItem("token", "");
+            location.href = "index.html";
+        });
 
     </script>
-
-    <!---------------- CSS ------------------->
-    <style>        
-
-html {
-                background-image: linear-gradient(blue, gray);
-            }
-
-            body {
-                text-align: center;
-                font-family: sans-serif;
-                color: rgb(9, 15, 12);
-                border: solid 10px rgb(27, 18, 18);
-                align-items: center;
-
-            }
-input[type=text], input[type=password] {
-  width: 50%;
-  padding: 12px 20px;
-  margin: 8px 0;
-  border: none;
-  box-sizing: border-box;
-}
-
-button {
-  background-color: #aa2b04;
-  color: white;
-  padding: 14px 20px;
-  margin: 8px 0;
-  border: solid 2px rgb(3, 3, 3);
-  width: 50%;
-}
-
-a:link {
-    text-decoration: none;
-    color: black;
-    padding: 3px;
-    border: solid 3px;
-    border-radius: 0%;
-    background-color: gray;
-
-}
-
-    </style>
-
 </body>
 
 </html>
