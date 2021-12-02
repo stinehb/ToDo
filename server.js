@@ -1,7 +1,7 @@
 const express = require("express");
 
 const server = express();
-const PORT = process.env.PORT || 3000;
+const PORT = process.env.PORT || 8080;
 
 const todolists = require("./modules/todolists.js");
 const users = require("./modules/users.js");

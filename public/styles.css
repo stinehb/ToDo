@@ -32,79 +32,119 @@ body {
 }
 
 div {
-    padding-top: 20px;
-    padding-bottom: 20px;
+  padding-top: 20px;
+  padding-bottom: 20px;
 }
 
 /* --------- Index CSS --------- */
 
-input[type=text], input[type=password] {
-    width: 25%;
-    padding: 12px 20px;
-    margin: 8px 0;
-    border: none;
-    box-sizing: border-box;
-  }
+input[type="text"],
+input[type="password"] {
+  width: 25%;
+  padding: 12px 20px;
+  margin: 8px 0;
+  border: none;
+  box-sizing: border-box;
+}
 
+@media only screen and (max-width: 800px) {
+  input[type="text"],
+  input[type="password"] {
+    width: 50%;
+  }
+}
+
+.btnLogin {
+  background-color: #faab19;
+  color: rgb(0, 0, 0);
+  padding: 14px 20px;
+  margin: 8px 0;
+  border: solid 2px rgb(3, 3, 3);
+  width: 15%;
+  cursor: pointer;
+  opacity: 0.75;
+  transition: 1s;
+  text-align: center;
+  align-items: center;
+}
+
+@media only screen and (max-width: 800px) {
   .btnLogin {
-    background-color: #faab19;
-    color: rgb(0, 0, 0);
-    padding: 14px 20px;
-    margin: 8px 0;
-    border: solid 2px rgb(3, 3, 3);
-    width: 15%;
-    cursor: pointer;
-    opacity: 0.75;
-    transition: 1s;
+    width: 30%;
   }
+}
 
-  .btnLogin:hover {
-    opacity: 1;
-    color: rgb(255, 255, 255);
-  }
-  
-  a:link {
-      text-decoration: none;
-      color: rgb(0, 0, 0);
-      padding: 3px;
-      border: solid 3px;
-      border-color: rgb(0, 0, 0);
-      background-color: rgb(255, 255, 255);
-  
-  }
+.btnLogin:hover {
+  opacity: 1;
+  color: rgb(255, 255, 255);
+}
 
-  /* --------- deleteuser CSS --------- */
+a:link {
+  text-decoration: none;
+  color: rgb(0, 0, 0);
+  padding: 3px;
+  border: solid 3px;
+  border-color: rgb(0, 0, 0);
+  background-color: rgb(255, 255, 255);
+}
 
+/* --------- deleteuser CSS --------- */
+
+.btnDeleteUser {
+  background-color: #f4511e;
+  color: rgb(255, 255, 255);
+  padding: 14px 20px;
+  margin: 8px 0;
+  border: solid 2px rgb(3, 3, 3);
+  width: 15%;
+  cursor: pointer;
+  opacity: 0.75;
+  transition: 1s;
+}
+
+@media only screen and (max-width: 800px) {
   .btnDeleteUser {
-    background-color: #f4511e;
-    color: rgb(255, 255, 255);
-    padding: 14px 20px;
-    margin: 8px 0;
-    border: solid 2px rgb(3, 3, 3);
-    width: 15%;
-    cursor: pointer;
-    opacity: 0.75;
-    transition: 1s;
+    width: 30%;
   }
+}
 
-  .btnDeleteUser:hover {
-    opacity: 1;
-  }
+.btnDeleteUser:hover {
+  opacity: 1;
+}
 
-  /* --------- usercreate CSS --------- */
+/* --------- usercreate CSS --------- */
 
+.btnCreateUser {
+  background-color: #87ff37;
+  color: rgb(0, 0, 0);
+  padding: 14px 20px;
+  margin: 8px 0;
+  border: solid 2px rgb(3, 3, 3);
+  width: 15%;
+  cursor: pointer;
+  opacity: 0.75;
+  transition: 1s;
+}
+
+@media only screen and (max-width: 800px) {
   .btnCreateUser {
-    background-color: #87ff37;
-    color: rgb(0, 0, 0);
-    padding: 14px 20px;
-    margin: 8px 0;
-    border: solid 2px rgb(3, 3, 3);
-    width: 15%;
-    cursor: pointer;
-    opacity: 0.75;
-    transition: 1s;
+    width: 30%;
   }
+}
 
-  .btnCreateUser:hover {
-    opacity: 1;
+.btnCreateUser:hover {
+  opacity: 1;
+}
+
+@media only screen and (max-width: 800px) {
+  .listContainer {
+    width: 30%;
   }
+}
+
+@media only screen and (max-width: 1300px) {
+  .listContainer {
+    width: 40%;
+  }
+}
+

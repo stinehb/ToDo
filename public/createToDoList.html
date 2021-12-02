@@ -12,17 +12,18 @@
   <!----------- HTML-elements -------------->
   <h1>Create a New To Do List</h1>
 
-  <div id="container"></div>
-  <input id="listTitle" placeholder="List Title" />
-  <button id="sendToServer">Create the List</button>
+
+  <input id="listTitle" type="text" placeholder="List Title" />
   <br />
-  <input id="input" placeholder="Add text" />
-  <button id="newCheckbox">Add New</button> <br /><br>
+  <input id="input" type="text" placeholder="Add text" />
+  <button id="newCheckbox" class="button">Add New</button> <br>
+  <div id="container"></div>
 
   <label for="remember">Check the box if you want the list to be public to all users</label>
-  <input id="checkboxShare" name="checkboxShare" type="checkbox" />
+  <input id="checkboxShare" name="checkboxShare" type="checkbox" /> <br> <br>
 
-  <button id="btnShowAllLists">Show All Lists</button>
+  <button id="sendToServer" class="button">Save the List</button>
+  <button id="btnShowAllLists" class="button">Show All Lists</button>
 
   <!------------- JavaScript --------------->
   <script>
@@ -35,6 +36,7 @@
     let btnShowAllLists = document.getElementById("btnShowAllLists");
     let checkboxShare = document.getElementById("checkboxShare");
     let items = [];
+    let itemNmbr = 1;
 
     function privateOrPublic() {
       if (checkboxShare.checked) {
@@ -48,7 +50,8 @@
 
     newCheckboxBtn.addEventListener("click", async function (evt) {
       let listItem = document.createElement("h2");
-      listItem.innerHTML = input.value;
+      listItem.innerHTML = `${itemNmbr}. ${input.value}`;
+      itemNmbr++;
       container.appendChild(listItem);
 
       let todo = {
@@ -90,6 +93,9 @@
         if (response.status != 200) {
           throw data.error;
         }
+
+        window.location.href = "showAllLists.html";
+
       } catch (error) {
         console.log(error);
       }
