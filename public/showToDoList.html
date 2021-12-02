@@ -14,11 +14,10 @@
   <h1 id="title"></h1><br>
   <div id="container" class="listContainer"></div>
   <input id="inp" type="text">
-  <button id="btnNewItem">Add an Item</button>
+  <button id="btnNewItem" class="button">Add an Item</button>
   <br>
 
-
-  <button id="btnShowAllLists">Show All Lists</button>
+  <button id="btnShowAllLists" class="button">Show All Lists</button>
 
   <!------------- JavaScript --------------->
   <script>
@@ -35,37 +34,42 @@
     let data = JSON.parse(divContent);
 
     function showToDoList() {
+
       container.innerHTML = "";
       inp.value = "";
+
+      if (data.length < 1) {
+        container.innerHTML = "This list have no items";
+      }
 
       let token = localStorage.getItem("token");
       title.innerHTML = divHeading;
 
       for (let i = 0; i < data.length; i++) {
 
-        let lol = data[i].text;
+        let content = data[i].text;
         let div = document.createElement("div");
-
-        div.innerHTML = lol;
+        div.innerHTML = content;
         div.id = i;
+        container.appendChild(div);
 
         let delBtn = document.createElement("button");
         delBtn.className = "button";
         delBtn.innerHTML = "Delete";
-        container.appendChild(div);
+
         div.appendChild(delBtn);
 
         delBtn.addEventListener("click", function (evt) {
 
           data.splice(div, 1);
           div.removeChild(delBtn);
-          updataToDoList();
+          showToDoList();
 
         });
       }
     }
 
-    async function updataToDoList() {
+    async function updateToDoList() {
       let todo = {
         text: inp.value,
         id: Date.now(),
@@ -107,7 +111,7 @@
     };
 
     btnNewItem.addEventListener("click", async function () {
-      updataToDoList();
+      updateToDoList();
     });
 
     btnShowAllLists.addEventListener("click", async function (evt) {

@@ -16,7 +16,7 @@
 
   <div id="listContainer"></div>
 
-  <button id="myLists" class="button">Show all shared lists</button><br><br>
+  <button id="myLists" class="button">Show My Private Lists</button><br><br>
   <button id="btnLogOut" class="button">Log Out</button>
 
   <!------------- JavaScript --------------->
@@ -25,8 +25,6 @@
     let listContainer = document.getElementById("listContainer");
     let myLists = document.getElementById("myLists");
     let btnLogOut = document.getElementById("btnLogOut");
-
-
 
     async function showSharedLists() {
       let url = "/showSharedLists";
@@ -48,7 +46,7 @@
           throw data.error;
         }
 
-        listContainer.innerHTML = ""; //delete previous content
+        listContainer.innerHTML = "";
 
         for (let value of data) {
           let date = new Date(value.date);

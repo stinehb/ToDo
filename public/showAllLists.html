@@ -11,14 +11,12 @@
 <body>
   <!----------- HTML-elements -------------->
 
-  <h1>To Do Lists</h1>
+  <h1>My Private To Do Lists</h1>
   <button id="btnCreate" class="button">New List</button>
-  <!-- <div id="frameContainer" class="frameContainer"></div> -->
-  <!-- <button id="btnShowList">Show List</button> -->
   <div id="listContainer"></div>
 
   <button id="btnChangePw" class="button">Change Password</button>
-  <button id="sharedLists" class="button">Show all shared lists</button><br><br>
+  <button id="sharedLists" class="button">Show All Public Lists</button><br><br>
   <button id="btnLogOut" class="button">Log Out</button>
 
   <!------------- JavaScript --------------->
@@ -70,7 +68,7 @@
 
         listContainer.innerHTML = "";
 
-        if(data.length < 1) {
+        if (data.length < 1) {
           let div = document.createElement("div");
           div.innerHTML = "No lists available, press the New List button above to get started.";
           listContainer.appendChild(div);
@@ -95,15 +93,6 @@
           delBtn.innerHTML = "Delete List";
           div.appendChild(delBtn);
 
-          let usernameInput = document.createElement("input");
-          usernameInput.placeholder = "Enter a username";
-          div.appendChild(usernameInput);
-
-          let shareBtn = document.createElement("button");
-          shareBtn.className = "button";
-          shareBtn.innerHTML = "Share";
-          div.appendChild(shareBtn);
-
           delBtn.addEventListener("click", function (evt) {
             deleteLists(value.id);
           });
@@ -124,59 +113,10 @@
       }
     }
 
-
-    /* shareBtn.addEventListener("click", function (evt) {
-      let usernameInp = document.createElement("input");
-      usernameInp.type = "text";
-      usernameInp.placeholder =
-        "skriv inn brukernavn til en som du vil dele listen med";
-        frameContainer.appendChild(usernameInp);
-
-      let bekreftBtn = document.createElement("button");
-      bekreftBtn.innerHTML = "share your list with this user";
-      frameContainer.appendChild(bekreftBtn);
-
-      bekreftBtn.addEventListener("click", async function (evt) {
-      
-        let url = "/getUserId?username=" + usernameInp.value;
-
-        let cfg = {
-          method: "GET",
-          headers: {
-            "content-type": "application/json",
-            "authorization": token
-          }
-
-        };
-
-        try {
-          let response = await fetch(url, cfg);
-          let data = await response.json();
-
-          if (response.status != 200) {
-            throw data.error;
-          }
-          shareYourList(data, value.id);
-
-        } catch (error) {
-          console.log(error);
-        }
-      });
-
-    });
-  }
-
-} catch (error) {
-  console.log(error);
-}
-} */
-
     //-----------------------------------------------
     async function deleteLists(todoID) {
       let url = "/showAllLists";
       let token = localStorage.getItem("token");
-
-      //let url = "/showAllLists?listeid=" + variabel;
 
       let updata = {
         id: todoID,
@@ -196,7 +136,7 @@
           throw data.error;
         }
 
-        showAllLists(); //refresh the list
+        showAllLists();
       } catch (error) {
         console.log(error);
       }
@@ -208,35 +148,6 @@
     btnShared.addEventListener("click", function (evt) {
       window.location.href = "showSharedLists.html";
     });
-
-
-
-    async function shareYourList(userid, id) {
-      let url = "/showSharedLists";
-      let token = localStorage.getItem("token");
-
-      let updata = {
-        "userid": userid,
-        "id": id
-      };
-
-      let cfg = {
-        method: "PUT",
-        headers: { "content-type": "application/json", "authorization": token },
-        body: JSON.stringify(updata),
-      };
-      try {
-        let response = await fetch(url, cfg);
-        let data = await response.json();
-
-        if (response.status != 200) {
-          throw data.error;
-        }
-
-      } catch (error) {
-        console.log(error);
-      }
-    }
 
     btnLogOut.addEventListener("click", function (evt) {
       localStorage.setItem("token", "");

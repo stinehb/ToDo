@@ -35,7 +35,6 @@
     let btnShowAllLists = document.getElementById("btnShowAllLists");
     let checkboxShare = document.getElementById("checkboxShare");
     let items = [];
-    // checkboxShare = 0;
 
     function privateOrPublic() {
       if (checkboxShare.checked) {
@@ -46,7 +45,6 @@
         console.log(checkboxShare);
       }
     }
-
 
     newCheckboxBtn.addEventListener("click", async function (evt) {
       let listItem = document.createElement("h2");
@@ -71,7 +69,6 @@
       let token = localStorage.getItem("token");
 
       let updata = {
-        // heading: inpHeading.value,
         heading: listTitle.value,
         content: JSON.stringify(items),
         public: checkboxShare
@@ -99,7 +96,6 @@
     });
 
     btnShowAllLists.addEventListener("click", function (evt) {
-      // localStorage.setItem("token", data.token);
       location.href = "showAllLists.html";
     });
   </script>

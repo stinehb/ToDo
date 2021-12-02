@@ -15,7 +15,7 @@
     <div id="container" class="listContainer"></div>
     <br>
 
-    <button id="btnShowAllLists">Show All Lists</button>
+    <button id="btnShowAllLists">Go Back</button>
 
     <!------------- JavaScript --------------->
     <script>
@@ -37,17 +37,16 @@
 
             for (let i = 0; i < data.length; i++) {
 
-                let lol = data[i].text;
+                let content = data[i].text;
                 let div = document.createElement("div");
-
-                div.innerHTML = lol;
+                div.innerHTML = content;
                 container.appendChild(div);
 
             }
         }
 
         btnShowAllLists.addEventListener("click", async function (evt) {
-            location.href = "showAllLists.html";
+            location.href = "showSharedLists.html";
         });
 
         showToDoList();

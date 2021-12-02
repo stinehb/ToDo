@@ -55,11 +55,9 @@
             }
             catch (error) {
                 console.log(error);
-                // txtResult.innerHTML = "Something went wrong - check the console window";
                 txtResult.innerHTML = error;
             }
         });
-
 
         function createNewUser() {
             let url = "/users/updatePassword";
